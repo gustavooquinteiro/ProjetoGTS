@@ -1,0 +1,223 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+
+
+	<ui:define name="titulo">Gestão Sistemas - Cadastro	</ui:define>
+	<!--Formatação e estilização da página concluida 
+		Atrelação dos campos ao ManagedBean concluido 
+	 	Implementação das funcionalidades dos campos concluida 
+	 	Implementação da funcionalidade do botão de ação (Salvar) concluida-->
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
+		</f:metadata>
+
+		<h1>Cadastro de Cliente</h1>
+		<h:form id="cadastro">
+			<fieldset style="padding: 3em;">
+				<p:messages autoUpdate="true" closable="true" />
+
+				<div style="width: 400px;">
+					<div class="float-left">
+						<p:outputLabel value="CNPJ: " for="cnpj" />
+						<p:inputMask id="cnpj" required="true" mask="99.999.999/9999-99"
+							value="#{cadastroClienteBean.cliente.cnpj}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Inscrição: " for="inscricao" />
+						<p:inputMask mask="999999999" id="inscricao" style="width: 96%"
+							value="#{cadastroClienteBean.cliente.inscricao}" />
+					</div>
+					<div class="clear" />
+
+					<div class="form">
+						<p:outputLabel value="Razão Social: " for="razao" />
+						<p:inputText id="razao" required="true" styleClass="formato-linha"
+							value="#{cadastroClienteBean.cliente.razaosocial}" />
+					</div>
+
+					<div class="form">
+						<p:outputLabel value="Nome: " for="nome" />
+						<p:inputText id="nome" required="true" styleClass="formato-linha"
+							value="#{cadastroClienteBean.cliente.nome}" />
+					</div>
+
+
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="UF: " for="uf" />
+						<p:selectOneMenu id="uf"
+							style="display: block; width: 30%; font-size: 14px;"
+							value="#{cadastroClienteBean.cliente.uf}" required="true">
+							<f:selectItem itemLabel=" " itemValue=" " />
+							<f:selectItem itemLabel="AC" itemValue="AC" />
+							<f:selectItem itemLabel="AL" itemValue="AL" />
+							<f:selectItem itemLabel="AM" itemValue="AM" />
+							<f:selectItem itemLabel="AP" itemValue="AP" />
+							<f:selectItem itemLabel="BA" itemValue="BA" />
+							<f:selectItem itemLabel="CE" itemValue="CE" />
+							<f:selectItem itemLabel="DF" itemValue="DF" />
+							<f:selectItem itemLabel="ES" itemValue="ES" />
+							<f:selectItem itemLabel="GO" itemValue="GO" />
+							<f:selectItem itemLabel="MA" itemValue="MA" />
+							<f:selectItem itemLabel="MT" itemValue="MT" />
+							<f:selectItem itemLabel="MS" itemValue="MS" />
+							<f:selectItem itemLabel="MG" itemValue="MG" />
+							<f:selectItem itemLabel="PA" itemValue="PA" />
+							<f:selectItem itemLabel="PB" itemValue="PB" />
+							<f:selectItem itemLabel="PR" itemValue="PE" />
+							<f:selectItem itemLabel="PE" itemValue="PI" />
+							<f:selectItem itemLabel="PI" itemValue="PR" />
+							<f:selectItem itemLabel="RJ" itemValue="RJ" />
+							<f:selectItem itemLabel="RN" itemValue="RN" />
+							<f:selectItem itemLabel="RS" itemValue="RS" />
+							<f:selectItem itemLabel="RO" itemValue="RO" />
+							<f:selectItem itemLabel="RR" itemValue="RR" />
+							<f:selectItem itemLabel="SC" itemValue="SE" />
+							<f:selectItem itemLabel="SP" itemValue="SC" />
+							<f:selectItem itemLabel="SE" itemValue="SP" />
+							<f:selectItem itemLabel="TO" itemValue="TO" />
+						</p:selectOneMenu>
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Cidade: " for="cidade" />
+						<p:inputText id="cidade" required="true" style="width: 96%"
+							value="#{cadastroClienteBean.cliente.nomecidade}" />
+					</div>
+
+
+					<div class="clear" />
+
+					<div class="float-left">
+						<p:outputLabel value="CEP: " for="cep" />
+						<p:inputMask id="cep" mask="99999-999" required="true"
+							style="display: block;"
+							value="#{cadastroClienteBean.cliente.cep}" />
+					</div>
+
+
+					<div class="float-right">
+						<p:outputLabel value="Bairro: " for="bairro" />
+						<p:inputText id="bairro" style="display:block; width: 96%"
+							value="#{cadastroClienteBean.cliente.bairro}" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left">
+						<p:outputLabel value="Endereço: " for="endereco" />
+						<p:inputText id="endereco"
+							value="#{cadastroClienteBean.cliente.endereco}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Nº: " for="num" />
+						<p:inputText id="num" style="display: block;width: 96%"
+							value="#{cadastroClienteBean.cliente.numero}" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left">
+						<p:outputLabel value="Telefone 1: " for="tel1" />
+						<p:inputMask mask="(99)9999-9999" id="tel1" required="true"
+							value="#{cadastroClienteBean.cliente.fone1}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Telefone 2:" for="tel2" />
+						<p:inputMask mask="(99)9999-9999" id="tel2" style="width: 96%"
+							value="#{cadastroClienteBean.cliente.fone2}" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left">
+						<p:outputLabel value="E-mail 1: " for="email1" />
+						<p:inputText id="email1" required="true"
+							value="#{cadastroClienteBean.cliente.email1}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="E-mail 2: " for="email2" style="width: 96%" />
+						<p:inputText id="email2" style="width:96%;"
+							value="#{cadastroClienteBean.cliente.email2}" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="form ">
+						<p:outputLabel value="Site: " for="site" />
+						<p:inputText id="site" styleClass="formato-linha"
+							value="#{cadastroClienteBean.cliente.site}" />
+					</div>
+
+					<div class="form">
+						<p:outputLabel value="Nº de série: " for="nserie" />
+						<p:inputText id="nserie" styleClass="formato-linha"
+							value="#{cadastroClienteBean.cliente.numserie}" required="true" />
+					</div>
+
+					<div class="float-left">
+						<p:outputLabel value="Nº de licenças" for="nlicencas" />
+						<p:inputText id="nlicencas" required="true" style="display:block;"
+							value="#{cadastroClienteBean.cliente.numlicenca}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Data de cadastro: " for="datacadastro" />
+						<p:inputText id="datacadastro" readonly="true"
+							value="#{cadastroClienteBean.cliente.datacadastro}"
+							style="display: block; margin-bottom: 15px; width: 96%" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left">
+						<p:outputLabel value="Dias para a expiração da senha: "
+							for="expiracaosenha" />
+						<p:inputText id="expiracaosenha"
+							value="#{cadastroClienteBean.cliente.diaschave}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Status: " for="status" />
+						<p:selectBooleanButton id="status"
+							value="#{cadastroClienteBean.cliente.bloqueado}" offLabel="Ativo"
+							onLabel="Bloqueado" onIcon="ui-icon-circle-close"
+							offIcon="ui-icon-circle-check" styleClass="botao-status-ativo"
+							style="display:block" />
+					</div>
+
+					<div class="clear" />
+				</div>
+
+				<p:toolbar>
+					<p:toolbarGroup align="left" style="padding: .3em">
+
+						<p:commandButton value="Salvar" icon="ui-icon-disk"
+							action="#{cadastroClienteBean.salvar}" update="@form"
+							id="botaoSalvar" />
+
+						<p:button value="Novo Cliente"
+							outcome="/clientes/CadastroCliente.xhtml"
+							icon="ui-icon-circle-plus" />
+
+
+						<p:button value="Pesquisar"
+							outcome="/clientes/PesquisaCliente.xhtml" icon="ui-icon-search" />
+
+					</p:toolbarGroup>
+				</p:toolbar>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

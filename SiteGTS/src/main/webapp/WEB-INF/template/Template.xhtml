@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Gestão Sistemas</ui:insert></title>
+	<h:outputStylesheet library="css" name="sistema.css" />
+	<h:outputScript library="js" name="site.js" />
+</h:head>
+
+<h:body>
+
+	<p:ajaxStatus styleClass="ajax-status">
+		<f:facet name="start">
+			<h:graphicImage library="imagens" name="carregando.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<header>
+	<div style="position: fixed; background-color: #eee; width: 100%;">
+
+		<h:form style="display: inline-block">
+
+			<p:menubar styleClass="menu-sistema">
+				<p:submenu label="☰ " style="font-size: 1.5em;">
+					<p:submenu label="Clientes" icon="fa fa-fw fa-users">
+						<p:menuitem value="Incluir" icon="fa fa-fw fa-user-plus"
+							outcome="/clientes/CadastroCliente.xhtml" />
+						<p:menuitem value="Localizar" icon="fa fa-fw fa-search"
+							outcome="/clientes/PesquisaCliente.xhtml" />
+					</p:submenu>
+					<p:submenu label="Chaves" icon="fa fa-fw fa-key">
+						<p:menuitem value="Gerar" icon=" fa fa-fw fa-key"
+							outcome="/chaves/GeraChave.xhtml" />
+						<p:menuitem value="Histórico" icon=" fa fa-fw fa-history" />
+					</p:submenu>
+					<p:separator />
+					<p:submenu label="Usuários" icon="fa fa-fw fa-user">
+						<p:menuitem value="Incluir" icon="fa fa-fw fa-user-plus"
+							outcome="/usuarios/CadastroUsuario.xhtml"
+							disabled="not #{seguranca.permitidoAcesso}" />
+						<p:menuitem value="Localizar" icon="fa fa-fw fa-search"
+							outcome="/usuarios/PesquisaUsuario.xhtml"
+							disabled="not #{seguranca.permitidoAcesso}" />
+					</p:submenu>
+					<p:separator />
+					<p:submenu label="#{seguranca.nomeUsuario}">
+						<p:menuitem value="Sair" url="/j_spring_security_logout"
+							icon="fa fa-fw fa-power-off" />
+					</p:submenu>
+				</p:submenu>
+			</p:menubar>
+		</h:form>
+	</div>
+	<h:link outcome="/Home">
+		<h:graphicImage library="imagens" name="logo.png" id="logo" />
+	</h:link> </header>
+
+	<div style="clear: both; padding-top: 8.5em;" />
+
+	<div id="conteudo">
+		<ui:insert name="corpo" />
+	</div>
+
+	<p:separator style="margin-top: 5em" />
+
+	<footer>
+	<p style="float: right; right: 10;">
+		&copy; Copyright 2016 - Painel administrativo <a
+			href="http://www.gestaosistemas.com">Gestão Sistemas</a>
+	</p>
+	</footer>
+</h:body>
+</html>

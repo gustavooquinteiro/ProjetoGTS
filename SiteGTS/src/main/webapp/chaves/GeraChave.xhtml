@@ -1,0 +1,28 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+	<ui:define name="titulo">Gestão Sistemas</ui:define>
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="gerachave" value="#{cadastroClienteBean.cliente}" />
+		</f:metadata>
+
+		<h1>Gerar Chave</h1>
+		
+		<h:form>
+			<p:panelGrid columns="3" style="width: 100%">
+		
+				<p:outputLabel value="Nome do cliente: " for="nome" />
+				<p:inputText style="width: 98%" id="nome"
+					value="#{cadastroClienteBean.cliente.nome}" required="true" />
+				<p:commandButton value="Gerar Chave" icon="ui-icon-key" />
+				
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

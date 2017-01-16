@@ -1,0 +1,224 @@
+@CHARSET "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+}
+
+header>div {
+	padding: 5px 0px;
+	margin-bottom: 20em;
+	height: 55px;
+	background-color: #eee;
+	color: #fff;
+	-webkit-box-shadow: 5px 5px 5px #ccc;
+	box-shadow: 5px 5px 5px #ccc;
+	background: #eee;
+	-webkit-border-top: 15px solid rgb(41, 83, 90);
+	border-top: 12px solid rgb(41, 83, 90);
+	width: 18em;
+}
+
+#conteudo {
+	padding: 0px 8px
+}
+
+footer {
+	padding: 0px 8px;
+	margin-bottom: 5em
+}
+
+h1 {
+	font-size: 2em;
+	font-weight: 500;
+	text-align: center;
+	padding-top: .5em;
+	padding-bottom: .5em;
+}
+
+#login-dialog {
+	width: 290px;
+	margin: auto;
+	margin-top: 150px;
+}
+
+.grid-login {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	margin-top: 8px;
+	padding: 10px
+}
+
+.rotulo {
+	width: 8em;
+}
+.campo{
+	width: 10em;
+}
+
+.ui-panelgrid td {
+	height: 34px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}
+
+.ui-selectmanycheckbox td {
+	border-width: 0px !important;
+	padding: 0px !important;
+}
+
+.ui-selectmanycheckbox td label {
+	padding-right: 10px;
+}
+
+.produto-tabela input {
+	width: 99%;
+}
+
+/* Customiza TabView - início */
+.ui-tabs .ui-tabs-panel {
+	padding: 0.5em 0.2em !important;
+}
+
+.ui-tabs {
+	padding: 0px !important;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0px !important;
+}
+/* Customiza TabView - fim */
+
+/* Menu sistema inicio */
+.menu-sistema {
+	border: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+.menu-sistema .ui-menu-parent>a .ui-menuitem-text, .menu-sistema>.ui-menu-list>.ui-menuitem>a>.ui-menuitem-text
+	{
+	color: #000 !important;
+}
+
+#logo {
+	position: fixed;
+	right: 2em;
+	top: 0;
+}
+
+#logo-login {
+	position: fixed;
+}
+/*Customização do form de cadastro de cliente*/
+#cadastro {
+	padding-top: .5em;
+	border: 1px;
+	-webkit-display: flex;
+	-moz-display: flex;
+	-o-display: flex;
+	display: flex;
+	-webkit-align-items: center;
+	-moz-align-items: center;
+	-o-align-items: center;
+	align-items: center;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-o-justify-content: center;
+	justify-content: center;
+}
+
+.barra {
+	-webkit-display: flex;
+	-moz-display: flex;
+	-o-display: flex;
+	display: flex;
+	-webkit-align-items: center;
+	-moz-align-items: center;
+	-o-align-items: center;
+	align-items: center;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-o-justify-content: center;
+	justify-content: center;
+	-o-justify-content: center;
+}
+
+.float-left {
+	outline: 0 ! important;
+	box-sizing: border-box;
+	float: left;
+	width: 49%;
+	margin-bottom: 1.5em;
+}
+
+.float-right {
+	outline: 0 !important;
+	box-sizing: border-box;
+	float: right;
+	width: 49%;
+	margin-bottom: 1.5em;
+}
+
+.clear {
+	clear: both;
+}
+
+.form {
+	margin-bottom: 1.5em;
+}
+
+.formato-linha {
+	display: block;
+	width: 98%;
+	margin-bottom: 1.5em;
+}
+
+.formato-coluna {
+	width: 49%;
+	margin-bottom: 1.5em;
+}
+
+.fieldset {
+	margin: auto;
+	width: 450px;
+}
+
+
+#pesquisapor {
+	width: 50%;
+}
+
+#pesquisa {
+	width: 95%;
+}
+
+.cadastrouser {
+	padding: 40px;
+	width: 100%;
+}
+
+.ui-selectbooleanbutton.ui-button.ui-state-active {
+	background-color: #e60000;
+	color: #fff;
+	border-radius: 5px;
+}
+
+ .botao-status-ativo {
+	background-color:green;
+	color: #fff;
+	border-radius: 5px;
+}
+.admin{
+	background-color: green;
+	color: #fff;
+	border-radius: 5px;
+}
