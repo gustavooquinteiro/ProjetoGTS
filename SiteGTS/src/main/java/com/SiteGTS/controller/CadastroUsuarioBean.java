@@ -24,13 +24,10 @@ public class CadastroUsuarioBean implements Serializable {
 
 	private Usuario user;
 
-	private Grupo[] gruposSelecionados;
+	private List<Grupo> gruposSelecionados;
 
 	private List<Grupo> grupos;
 
-/*	private List<String> gruposString;
-*/
-	private List<String> gruposString;
 	@Inject
 	private Grupos usuarios;
 
@@ -43,6 +40,7 @@ public class CadastroUsuarioBean implements Serializable {
 	}
 
 	public void salvar() {
+		user.setGrupos(gruposSelecionados);
 		cus.salvar(user);
 		limpar();
 		FacesUtil.addInfoMessage("Cadastro feito com sucesso!!");
@@ -56,17 +54,17 @@ public class CadastroUsuarioBean implements Serializable {
 		this.user = user;
 	}
 
-	public Grupo[] getGruposSelecionados() {
+	public List<Grupo> getGruposSelecionados() {
 		return gruposSelecionados;
 	}
 
-	public void setGruposSelecionados(Grupo[] gruposSelecionados) {
+	public void setGruposSelecionados(List<Grupo> gruposSelecionados) {
 		this.gruposSelecionados = gruposSelecionados;
 	}
 
 	public List<Grupo> getGrupos() {
-		grupos = usuarios.buscar(); 
-		return grupos; 
+		grupos = usuarios.buscar();
+		return grupos;
 	}
 
 	public void setGrupos(List<Grupo> grupos) {

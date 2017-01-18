@@ -45,11 +45,11 @@
 					<div style="padding-bottom: 1.5em;" />
 
 					<p:outputLabel value="Grupos ao qual pertence: " />
-					<p:selectCheckboxMenu label="Grupos"
-						value="#{cadastroUsuarioBean.gruposSelecionados}"
-						panelStyle="width:250px">
-						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo" />
-					</p:selectCheckboxMenu>
+					<p:selectManyMenu label="Grupos"
+						value="#{cadastroUsuarioBean.gruposSelecionados}">
+						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
+							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+					</p:selectManyMenu>
 
 				</h:panelGrid>
 				<p:toolbar>
