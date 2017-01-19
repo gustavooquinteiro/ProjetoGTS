@@ -35,7 +35,7 @@
 						required="true" weakLabel="Senha fraca" goodLabel="Senha boa"
 						strongLabel="Senha forte" promptLabel="Por favor insira uma senha"
 						match="confirma" inline="true"
-						validatorMessage="Por favor digite a mesma senha!	" />
+						validatorMessage="Por favor digite a mesma senha!" />
 
 					<div style="padding-bottom: 1.5em;" />
 
@@ -44,14 +44,15 @@
 
 					<div style="padding-bottom: 1.5em;" />
 
-					<p:outputLabel value="Grupos ao qual pertence: " />
+					<p:outputLabel value="Grupo ao qual pertence: " />
 					<p:selectManyMenu label="Grupos"
-						value="#{cadastroUsuarioBean.gruposSelecionados}">
+						value="#{cadastroUsuarioBean.user.grupos}">
 						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
 							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
 					</p:selectManyMenu>
 
 				</h:panelGrid>
+
 				<p:toolbar>
 					<p:toolbarGroup>
 
@@ -67,6 +68,7 @@
 
 					</p:toolbarGroup>
 				</p:toolbar>
+
 			</p:fieldset>
 		</h:form>
 	</ui:define>

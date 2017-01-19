@@ -22,7 +22,7 @@ public class Cliente implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@Column
+	@Column(unique = true, nullable = false)
 	@CNPJ
 	private String cnpj;
 
@@ -238,7 +238,7 @@ public class Cliente implements Serializable {
 	}
 
 	public boolean isBloqueado() {
-		return this.bloqueado; 
+		return this.bloqueado;
 	}
 
 	public void setBloqueado(boolean bloqueado) {
