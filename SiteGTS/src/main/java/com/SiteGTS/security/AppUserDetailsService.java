@@ -23,17 +23,15 @@ public class AppUserDetailsService implements UserDetailsService {
 		Usuario usuario = usuarios.porEmail(email);
 		UsuarioSistema user = null;
 		if (usuario != null) {
-			user = new UsuarioSistema(usuario, getGrupos(usuario));
+			user = new UsuarioSistema(usuario, getGrupo(usuario));
 		}
 		return user;
 	}
 
-	private Collection<? extends GrantedAuthority> getGrupos(Usuario usuario) {
+	private Collection<? extends GrantedAuthority> getGrupo(Usuario usuario) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-		for (Grupo grupo : usuario.getGrupos()) {
-			authorities.add(new SimpleGrantedAuthority(grupo.getNome().toUpperCase()));
-		}
+		authorities.add(new SimpleGrantedAuthority(usuario.getGrupo().getNome().toUpperCase()));
 
 		return authorities;
 	}

@@ -45,11 +45,15 @@
 					<div style="padding-bottom: 1.5em;" />
 
 					<p:outputLabel value="Grupo ao qual pertence: " />
-					<p:selectManyMenu label="Grupos"
-						value="#{cadastroUsuarioBean.user.grupos}">
+					<p:selectOneRadio value="#{cadastroUsuarioBean.grupo}">
 						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
 							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
-					</p:selectManyMenu>
+					</p:selectOneRadio>
+					<!-- <p:selectManyMenu label="Grupos"
+						value="#{cadastroUsuarioBean.grupo}">
+						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
+							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
+					</p:selectManyMenu> -->
 
 				</h:panelGrid>
 
