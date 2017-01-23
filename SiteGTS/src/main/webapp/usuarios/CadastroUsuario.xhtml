@@ -12,7 +12,8 @@
 		</f:metadata>
 		<h:form>
 			<p:fieldset class="fieldset">
-				<LEGEND> Usuários </LEGEND>
+
+				<h1>Usuários</h1>
 
 				<h:panelGrid columns="1" class="cadastrouser" id="cadastrouser">
 					<p:messages autoUpdate="true" closable="true" />
@@ -49,12 +50,6 @@
 						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
 							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
 					</p:selectOneRadio>
-					<!-- <p:selectManyMenu label="Grupos"
-						value="#{cadastroUsuarioBean.grupo}">
-						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
-							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
-					</p:selectManyMenu> -->
-
 				</h:panelGrid>
 
 				<p:toolbar>

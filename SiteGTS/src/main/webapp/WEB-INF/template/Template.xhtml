@@ -52,6 +52,9 @@
 					</p:submenu>
 					<p:separator />
 					<p:submenu label="#{seguranca.nomeUsuario}">
+						<p:menuitem value="Configurações" outcome="/usuarios/CadastroUsuario.xhtml" icon="fa fa-fw fa-cog">
+							<f:param name="usuario" value="#{seguranca.idUsuario}"/>
+						</p:menuitem>
 						<p:menuitem value="Sair" url="/j_spring_security_logout"
 							icon="fa fa-fw fa-power-off" />
 					</p:submenu>
@@ -61,7 +64,8 @@
 	</div>
 	<h:link outcome="/Home">
 		<h:graphicImage library="imagens" name="logo.png" id="logo" />
-	</h:link> </header>
+	</h:link>
+	</header>
 
 	<div style="clear: both; padding-top: 8.5em;" />
 
@@ -73,7 +77,7 @@
 
 	<footer>
 	<p style="float: right; right: 10;">
-		&copy; Copyright 2016 - Painel administrativo <a
+		&copy; Copyright 2017 - Painel administrativo <a
 			href="http://www.gestaosistemas.com">Gestão Sistemas</a>
 	</p>
 	</footer>

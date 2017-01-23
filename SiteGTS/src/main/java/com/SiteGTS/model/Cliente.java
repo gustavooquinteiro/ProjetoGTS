@@ -94,7 +94,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+		this.cnpj = cnpj.replaceAll("[0-9]^", "");
 	}
 
 	public String getInscricao() {
@@ -154,7 +154,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setCep(String cep) {
-		this.cep = cep;
+		this.cep = cep.replaceAll("[0-9]^","");
 	}
 
 	public String getBairro() {
@@ -178,7 +178,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setFone1(String fone1) {
-		this.fone1 = fone1;
+		this.fone1 = fone1.replaceAll("[0-9]^","");
 	}
 
 	public String getFone2() {
@@ -186,7 +186,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setFone2(String fone2) {
-		this.fone2 = fone2;
+		this.fone2 = fone2.replaceAll("[0-9]^","");
 	}
 
 	public String getEmail1() {

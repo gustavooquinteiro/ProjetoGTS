@@ -13,7 +13,7 @@
 				<legend>
 					<h1>Pesquisa de Usuários</h1>
 				</legend>
-			
+
 				<h:panelGrid columns="2">
 
 					<p:outputLabel value="Nome: " for="nome" />
@@ -47,13 +47,10 @@
 					</p:column>
 
 					<p:column style="width:5em">
-						<p:button title="Editar" icon="ui-icon-pencil"
-							outcome="/usuarios/CadastroUsuario.xhtml">
-							<f:param value="#{usuario.id}" name="usuario" />
-						</p:button>
 						<p:commandButton title="Remover" icon="ui-icon-trash"
 							oncomplete="PF('confirmacaoExclusao').show()" process="@this"
-							update=":frm:confirmacaoExclusaoDialog">
+							update=":frm:confirmacaoExclusaoDialog"
+							disabled="#{not seguranca.permitidoExclusaoUsuario}">
 							<f:setPropertyActionListener value="#{usuario}"
 								target="#{pesquisaUsuarioBean.usuarioSelecionado}" />
 						</p:commandButton>

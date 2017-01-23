@@ -40,7 +40,7 @@
 		<intercept-url pattern="/Home.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/AcessoNegado.xhtml" access="isAuthenticated()" />
 		
-	 	<intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADOR')"/>
+	 	<intercept-url pattern="/usuarios/**" access="isAuthenticated()"/>
 		<intercept-url pattern="/clientes/**" access="hasAnyRole('SUPORTE', 'ADMINISTRADOR')" />
 		<intercept-url pattern="/chaves/**" access="hasAnyRole('SUPORTE', 'ADMINISTRADOR')" />
 		
