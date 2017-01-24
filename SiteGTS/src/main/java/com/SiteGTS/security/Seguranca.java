@@ -1,7 +1,5 @@
 package com.SiteGTS.security;
 
-import java.util.List;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -9,9 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
-import com.SiteGTS.model.Usuario;
-import com.SiteGTS.repository.Usuarios;
 
 @Named
 @RequestScoped

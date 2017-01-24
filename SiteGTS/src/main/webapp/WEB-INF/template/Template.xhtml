@@ -50,9 +50,13 @@
 							outcome="/usuarios/PesquisaUsuario.xhtml"
 							disabled="not #{seguranca.permitidoAcesso}" />
 					</p:submenu>
+					<p:submenu label="Chamados" icon=" fa fa-fw fa-ticket">
+						<p:menuitem value="Novo" icon="fa fa-fw fa-plus" url="https://www.gestaosistemas.com/chamados"/>
+						<p:menuitem value="Relatórios" icon="fa fa-fw fa-file-pdf-o"/>
+					</p:submenu>
 					<p:separator />
 					<p:submenu label="#{seguranca.nomeUsuario}">
-						<p:menuitem value="Configurações" outcome="/usuarios/CadastroUsuario.xhtml" icon="fa fa-fw fa-cog">
+						<p:menuitem value="Configurações" outcome="/usuarios/EditarUsuario.xhtml" icon="fa fa-fw fa-cog">
 							<f:param name="usuario" value="#{seguranca.idUsuario}"/>
 						</p:menuitem>
 						<p:menuitem value="Sair" url="/j_spring_security_logout"
