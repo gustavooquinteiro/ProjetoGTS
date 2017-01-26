@@ -44,6 +44,10 @@ public class PesquisaClienteService implements Serializable {
 				filtro.setStatus(true);
 			}
 		}
+		if(opcao.equals("nomefantasia")){
+			filtro = new ClienteFilter();
+			filtro.setNome(pesquisa);
+		}
 		return filtro;
 		
 	}

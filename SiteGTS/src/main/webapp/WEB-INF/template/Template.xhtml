@@ -51,13 +51,15 @@
 							disabled="not #{seguranca.permitidoAcesso}" />
 					</p:submenu>
 					<p:submenu label="Chamados" icon=" fa fa-fw fa-ticket">
-						<p:menuitem value="Novo" icon="fa fa-fw fa-plus" url="https://www.gestaosistemas.com/chamados"/>
-						<p:menuitem value="Relatórios" icon="fa fa-fw fa-file-pdf-o"/>
+						<p:menuitem value="Novo" icon="fa fa-fw fa-plus"
+							outcome="/chamados/CadastroTicket.xhtml" />
+						<p:menuitem value="Relatórios" icon="fa fa-fw fa-file-pdf-o" />
 					</p:submenu>
 					<p:separator />
 					<p:submenu label="#{seguranca.nomeUsuario}">
-						<p:menuitem value="Configurações" outcome="/usuarios/EditarUsuario.xhtml" icon="fa fa-fw fa-cog">
-							<f:param name="usuario" value="#{seguranca.idUsuario}"/>
+						<p:menuitem value="Configurações"
+							outcome="/usuarios/EditarUsuario.xhtml" icon="fa fa-fw fa-cog">
+							<f:param name="usuario" value="#{seguranca.idUsuario}" />
 						</p:menuitem>
 						<p:menuitem value="Sair" url="/j_spring_security_logout"
 							icon="fa fa-fw fa-power-off" />
@@ -68,8 +70,7 @@
 	</div>
 	<h:link outcome="/Home">
 		<h:graphicImage library="imagens" name="logo.png" id="logo" />
-	</h:link>
-	</header>
+	</h:link> </header>
 
 	<div style="clear: both; padding-top: 8.5em;" />
 

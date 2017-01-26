@@ -45,8 +45,8 @@
 
 					<div style="padding-bottom: 1.5em;" />
 
-					<p:outputLabel value="Grupo ao qual pertence: " />
-					<p:selectOneRadio value="#{cadastroUsuarioBean.grupo}">
+					<p:outputLabel value="Grupo ao qual pertence: " for="grupo"/>
+					<p:selectOneRadio id="grupo" value="#{cadastroUsuarioBean.grupo}" required="true">
 						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
 							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
 					</p:selectOneRadio>
