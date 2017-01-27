@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
@@ -67,6 +68,10 @@ public class Cliente implements Serializable {
 	private int diaschave;
 	private String sistema;
 	private boolean contrato;
+
+	@OneToOne
+	@Column(nullable = true, unique = true)
+	private Ticket ticket;
 
 	public Cliente() {
 		setDiaschave(30);
@@ -154,7 +159,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setCep(String cep) {
-		this.cep = cep.replaceAll("[0-9]^","");
+		this.cep = cep.replaceAll("[0-9]^", "");
 	}
 
 	public String getBairro() {
@@ -178,7 +183,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setFone1(String fone1) {
-		this.fone1 = fone1.replaceAll("[0-9]^","");
+		this.fone1 = fone1.replaceAll("[0-9]^", "");
 	}
 
 	public String getFone2() {
@@ -186,7 +191,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setFone2(String fone2) {
-		this.fone2 = fone2.replaceAll("[0-9]^","");
+		this.fone2 = fone2.replaceAll("[0-9]^", "");
 	}
 
 	public String getEmail1() {
@@ -275,6 +280,14 @@ public class Cliente implements Serializable {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco.toUpperCase();
+	}
+
+	public Ticket getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
 	}
 
 	@Override

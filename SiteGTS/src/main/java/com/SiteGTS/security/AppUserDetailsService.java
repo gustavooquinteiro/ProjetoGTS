@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.SiteGTS.model.Grupo;
 import com.SiteGTS.model.Usuario;
 import com.SiteGTS.repository.Usuarios;
 import com.SiteGTS.util.cdi.CDIServiceLocator;

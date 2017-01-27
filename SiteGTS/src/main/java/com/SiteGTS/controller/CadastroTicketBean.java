@@ -13,7 +13,8 @@ import com.SiteGTS.model.Ticket;
 import com.SiteGTS.model.Usuario;
 import com.SiteGTS.repository.Clientes;
 import com.SiteGTS.repository.Usuarios;
-import com.SiteGTS.service.PesquisaClienteService;
+import com.SiteGTS.service.CadastroTicketService;
+import com.SiteGTS.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -29,7 +30,7 @@ public class CadastroTicketBean implements Serializable {
 	private Clientes clientes;
 
 	@Inject
-	private PesquisaClienteService pcs;
+	private CadastroTicketService cts;
 
 	private String op;
 
@@ -41,6 +42,15 @@ public class CadastroTicketBean implements Serializable {
 
 	public CadastroTicketBean() {
 		limpar();
+	}
+
+	public void salvar() {
+		ticket.setCliente(cliente);
+		cliente.setTicket(ticket);
+
+		cts.salvar(ticket);
+		limpar();
+		FacesUtil.addInfoMessage("Chamado aberto com sucesso!");
 	}
 
 	private void limpar() {
@@ -58,6 +68,11 @@ public class CadastroTicketBean implements Serializable {
 			clientesListados = clientes.buscar(op, nome);
 		}
 		return clientesListados;
+	}
+
+	public String colocarTelefone() {
+		String tel = cliente.getFone1();
+		return tel;
 	}
 
 	public Ticket getTicket() {

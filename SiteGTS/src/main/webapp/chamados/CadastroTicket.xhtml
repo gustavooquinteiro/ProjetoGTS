@@ -36,7 +36,9 @@
 						completeMethod="#{cadastroTicketBean.completarEmpresa}"
 						forceSelection="true" var="cliente"
 						itemLabel="#{cliente.razaosocial}" itemValue="#{cliente}"
-						maxResults="5" />
+						maxResults="5" >
+						<p:ajax update="tel" listener="#{cadastroTicketBean.colocarTelefone}"/>
+						</p:autoComplete>
 
 					<div style="padding-bottom: 1.5em;" />
 
@@ -47,7 +49,7 @@
 					<div style="padding-bottom: 1.5em;" />
 
 					<p:outputLabel value="Telefone" for="tel" />
-					<p:inputMask id="tel" mask="(99)9999-9999"
+					<p:inputText id="tel"
 						value="#{cadastroTicketBean.ticket.cliente.fone1}" />
 
 					<div style="padding-bottom: 1.5em;" />
@@ -125,7 +127,7 @@
 						<f:selectItem itemValue="Garantia" itemLabel="Garantia" />
 						<f:selectItem itemValue="Cobrança" itemLabel="Cobrança" />
 					</p:selectOneRadio>
-					
+
 					<div style="padding-bottom: 1.5em;" />
 				</h:panelGrid>
 

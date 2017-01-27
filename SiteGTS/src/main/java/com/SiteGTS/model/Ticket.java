@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 @Entity
 public class Ticket implements Serializable {
 
@@ -20,7 +22,10 @@ public class Ticket implements Serializable {
 	private String tecnico;
 	private String problema;
 	private String solucao;
-	private Cliente cliente; 
+	
+	@OneToOne (mappedBy = "ticket")		
+	private Cliente cliente;
+	
 	private String nivel;
 	private boolean backupBanco;
 	private String motivoBackup;
