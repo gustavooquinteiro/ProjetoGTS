@@ -70,7 +70,6 @@ public class Cliente implements Serializable {
 	private boolean contrato;
 
 	@OneToOne
-	@Column(nullable = true, unique = true)
 	private Ticket ticket;
 
 	public Cliente() {
