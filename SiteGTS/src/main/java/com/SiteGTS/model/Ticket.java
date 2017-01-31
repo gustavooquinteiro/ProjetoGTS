@@ -7,7 +7,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Ticket implements Serializable {
@@ -16,30 +17,31 @@ public class Ticket implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String solicitante;
 	private String atendente;
 	private String tecnico;
 	private String problema;
 	private String solucao;
-	
-	@OneToOne (mappedBy = "ticket")		
+
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
-	
-	private String nivel;
+
+	private Nivel nivel;
 	private boolean backupBanco;
 	private String motivoBackup;
 	private boolean alteracaoBanco;
 	private String motivoAlteracao;
-	private String status;
+	private Status status;
 	private String tipoTicket;
-	private String dataTicket; 
-	private String rotina; 
+	private String dataTicket;
+	private Rotina rotina;
 
-	public Ticket (){
+	public Ticket() {
 		setDataTicket(retornaDataAtual());
 	}
-	
+
 	private String retornaDataAtual() {
 		Date data = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -95,14 +97,6 @@ public class Ticket implements Serializable {
 		this.solucao = solucao;
 	}
 
-	public String getNivel() {
-		return nivel;
-	}
-
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
-	}
-
 	public boolean isBackupBanco() {
 		return backupBanco;
 	}
@@ -135,14 +129,6 @@ public class Ticket implements Serializable {
 		this.motivoAlteracao = motivoAlteracao;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getTipoTicket() {
 		return tipoTicket;
 	}
@@ -167,12 +153,28 @@ public class Ticket implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public String getRotina() {
+	public Nivel getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Rotina getRotina() {
 		return rotina;
 	}
 
-	public void setRotina(String rotina) {
+	public void setRotina(Rotina rotina) {
 		this.rotina = rotina;
 	}
-	
+
 }

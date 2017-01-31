@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.SiteGTS.model.Ticket;
+import com.SiteGTS.util.jpa.Transactional;
 
 public class Tickets implements Serializable{
 
@@ -14,6 +15,7 @@ public class Tickets implements Serializable{
 	@Inject 
 	private EntityManager manager;
 
+	@Transactional
 	public Ticket guardar(Ticket ticket) {
 		ticket = manager.merge(ticket); 
 		return null;

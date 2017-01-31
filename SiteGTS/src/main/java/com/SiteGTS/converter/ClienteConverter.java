@@ -21,11 +21,12 @@ public class ClienteConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 
-		Cliente retorno = new Cliente();
+		Cliente retorno = null; 
 		if (value != null) {
 			retorno = this.clientes.porId(new Long(value));
+			return retorno;
 		}
-		return retorno;
+		return retorno; 
 	}
 
 	@Override

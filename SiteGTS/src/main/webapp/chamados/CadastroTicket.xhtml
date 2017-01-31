@@ -10,118 +10,119 @@
 		<f:metadata>
 			<o:viewParam name="ticket" value="#{cadastroTicketBean.ticket}" />
 		</f:metadata>
-		<h:form>
-			<p:fieldset class="fieldset">
 
-				<h1>Tickets</h1>
+		<h1>Tickets</h1>
+		<h:form id="cadastroticket">
+			<fieldset class="fieldset">
+				<p:messages autoUpdate="true" closable="true" />
 
-				<h:panelGrid columns="1" class="cadastroticket" id="cadastroticket">
-					<p:messages autoUpdate="true" closable="true" />
+				<div style="width: 400px;">
 
-					<p:outputLabel value="Pesquisa: " for="pesquisa" />
-					<p:selectOneMenu id="pesquisa" style="width: 100%;"
-						value="#{cadastroTicketBean.op}">
-						<f:selectItem itemLabel="Razão Social" itemValue="razaosocial" />
-						<f:selectItem itemLabel="Nome Fantasia" itemValue="nome" />
-						<f:selectItem itemLabel="CNPJ" itemValue="cnpj" />
-						<f:selectItem itemLabel="Contendo" itemValue="vazio" />
-						<f:ajax />
-					</p:selectOneMenu>
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="Pesquisa: " for="pesquisa" />
+						<p:selectOneMenu id="pesquisa" value="#{cadastroTicketBean.op}">
+							<f:selectItem itemLabel="Razão Social" itemValue="razaosocial" />
+							<f:selectItem itemLabel="Nome Fantasia" itemValue="nome" />
+							<f:selectItem itemLabel="CNPJ" itemValue="cnpj" />
+							<f:selectItem itemLabel="Contendo" itemValue="vazio" />
+							<f:ajax />
+						</p:selectOneMenu>
+					</div>
 
-					<div style="padding-bottom: 1.5em;" />
-
-					<p:outputLabel value="Empresa: " for="empresa" />
-					<p:autoComplete id="empresa"
-						value="#{cadastroTicketBean.ticket.cliente}"
-						completeMethod="#{cadastroTicketBean.completarEmpresa}"
-						forceSelection="true" var="cliente"
-						itemLabel="#{cliente.razaosocial}" itemValue="#{cliente}"
-						maxResults="5" >
-						<p:ajax update="tel" listener="#{cadastroTicketBean.colocarTelefone}"/>
+					<div class="float-right">
+						<p:outputLabel value="Empresa: " for="empresa" />
+						<p:autoComplete id="empresa"
+							value="#{cadastroTicketBean.ticket.cliente}"
+							completeMethod="#{cadastroTicketBean.completarEmpresa}"
+							forceSelection="true" var="cliente"
+							itemLabel="#{cliente.razaosocial}" itemValue="#{cliente}"
+							styleClass="formato-linha">
+							<p:ajax update="tel"
+								listener="#{cadastroTicketBean.colocarTelefone}" />
 						</p:autoComplete>
+					</div>
 
-					<div style="padding-bottom: 1.5em;" />
+					<div class="clear" />
 
-					<p:outputLabel value="Solicitante: " for="solicitante" />
-					<p:inputText id="solicitante"
-						value="#{cadastroTicketBean.ticket.solicitante}" />
+					<div class="float-left">
+						<p:outputLabel value="Solicitante: " for="solicitante" />
+						<p:inputText id="solicitante"
+							value="#{cadastroTicketBean.ticket.solicitante}" />
+					</div>
 
-					<div style="padding-bottom: 1.5em;" />
+					<div class="float-right">
+						<p:outputLabel value="Telefone" for="tel" />
+						<p:inputText id="tel"
+							value="#{cadastroTicketBean.ticket.cliente.fone1}" />
+					</div>
 
-					<p:outputLabel value="Telefone" for="tel" />
-					<p:inputText id="tel"
-						value="#{cadastroTicketBean.ticket.cliente.fone1}" />
+					<div class="clear" />
 
-					<div style="padding-bottom: 1.5em;" />
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="Atendente" for="atendente" />
+						<p:selectOneMenu id="atendente"
+							value="#{cadastroTicketBean.ticket.atendente}"
+							style="display: block; margin-bottom: 15px;">
+							<f:selectItems value="#{cadastroTicketBean.usuarios}"
+								var="atendente" itemLabel="#{atendente.nome}"
+								itemValue="#{atendente.nome}" />
+						</p:selectOneMenu>
+					</div>
 
-					<p:outputLabel value="Atendente" for="atendente" />
-					<p:selectOneMenu id="atendente"
-						value="#{cadastroTicketBean.ticket.atendente}">
-						<f:selectItems value="#{cadastroTicketBean.usuarios}"
-							var="atendente" itemLabel="#{atendente.nome}"
-							itemValue="#{atendente.nome}" />
-					</p:selectOneMenu>
+					<div class="float-right formato-coluna">
+						<p:outputLabel value="Técnico" for="tecnico" />
+						<p:selectOneMenu id="tecnico"
+							value="#{cadastroTicketBean.ticket.tecnico}"
+							style="display: block; margin-bottom: 15px;">
+							<f:selectItems value="#{cadastroTicketBean.usuarios}"
+								var="tecnico" itemLabel="#{tecnico.nome}"
+								itemValue="#{tecnico.nome}" />
+						</p:selectOneMenu>
+					</div>
 
-					<div style="padding-bottom: 1.5em;" />
-
-					<p:outputLabel value="Técnico" for="tecnico" />
-					<p:selectOneMenu id="tecnico"
-						value="#{cadastroTicketBean.ticket.tecnico}">
-						<f:selectItems value="#{cadastroTicketBean.usuarios}"
-							var="tecnico" itemLabel="#{tecnico.nome}"
-							itemValue="#{tecnico.nome}" />
-					</p:selectOneMenu>
-
-					<div style="padding-bottom: 1.5em;" />
+					<div class="clear" />
 
 					<p:outputLabel value="Descrição do problema: " for="problema" />
 					<p:inputTextarea id="problema"
-						value="#{cadastroTicketBean.ticket.problema}" />
-
-					<div style="padding-bottom: 1.5em;" />
+						value="#{cadastroTicketBean.ticket.problema}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
 
 					<p:outputLabel value="Descrição da solução: " for="solucao" />
 					<p:inputTextarea id="solucao"
-						value="#{cadastroTicketBean.ticket.solucao}" />
-
-					<div style="padding-bottom: 1.5em;" />
+						value="#{cadastroTicketBean.ticket.solucao}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
 
 					<p:outputLabel value="Software: " for="software" />
 					<p:inputText id="software"
-						value="#{cadastroTicketBean.cliente.sistema}" />
-
-					<div style="padding-bottom: 1.5em;" />
+						value="#{cadastroTicketBean.cliente.sistema}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
 
 					<p:outputLabel value="Rotina que apresentou problema: "
 						for="rotina" />
 					<p:inputText id="rotina"
-						value="#{cadastroTicketBean.ticket.rotina}" />
+						value="#{cadastroTicketBean.ticket.rotina}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
 
-					<div style="padding-bottom: 1.5em;" />
-
+					<o:importConstants type="com.SiteGTS.model.Nivel" />
 					<p:outputLabel value="Nível: " for="nivel" />
 					<p:selectOneRadio id="nivel"
-						value="#{cadastroTicketBean.ticket.nivel}">
-						<f:selectItem itemLabel="Baixo" itemValue="Baixo" />
-						<f:selectItem itemLabel="Médio" itemValue="Médio" />
-						<f:selectItem itemLabel="Alto" itemValue="Alto" />
+						value="#{cadastroTicketBean.ticket.nivel}"
+						style="display: block; margin-bottom: 15px; width: 100%">
+						<f:selectItems value="#{Nivel}" />
 					</p:selectOneRadio>
 
-					<div style="padding-bottom: 1.5em;" />
-
+					<o:importConstants type="com.SiteGTS.model.Status" />
 					<p:outputLabel value="Status do Ticket: " for="status" />
 					<p:selectOneRadio id="status"
-						value="#{cadastroTicketBean.ticket.status}">
-						<f:selectItem itemLabel="Aberto" itemValue="Aberto" />
-						<f:selectItem itemLabel="Em andamento" itemValue="Em andamento" />
-						<f:selectItem itemLabel="Fechado" itemValue="Fechado" />
+						value="#{cadastroTicketBean.ticket.status}"
+						style="display: block; margin-bottom: 15px; width: 100%">
+						<f:selectItems value="#{Status}" />
 					</p:selectOneRadio>
-
-					<div style="padding-bottom: 1.5em;" />
 
 					<p:outputLabel value="Tipo do Ticket: " for="tipo" />
 					<p:selectOneRadio id="tipo"
-						value="#{cadastroTicketBean.ticket.tipoTicket}">
+						value="#{cadastroTicketBean.ticket.tipoTicket}"
+						style="display: block; margin-bottom: 15px; width: 96%">
 						<f:selectItem itemValue="Contrato" itemLabel="Contrato" />
 						<f:selectItem itemValue="Cortesia" itemLabel="Cortesia" />
 						<f:selectItem itemValue="Garantia" itemLabel="Garantia" />
@@ -129,8 +130,7 @@
 					</p:selectOneRadio>
 
 					<div style="padding-bottom: 1.5em;" />
-				</h:panelGrid>
-
+				</div>
 				<p:toolbar>
 					<p:toolbarGroup>
 
@@ -146,8 +146,7 @@
 
 					</p:toolbarGroup>
 				</p:toolbar>
-
-			</p:fieldset>
+			</fieldset>
 		</h:form>
 	</ui:define>
 </ui:composition>

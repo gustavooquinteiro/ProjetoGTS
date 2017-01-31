@@ -3,12 +3,15 @@ package com.SiteGTS.model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
@@ -69,8 +72,8 @@ public class Cliente implements Serializable {
 	private String sistema;
 	private boolean contrato;
 
-	@OneToOne
-	private Ticket ticket;
+	@OneToMany(mappedBy = "cliente", targetEntity = Ticket.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Ticket> ticket;
 
 	public Cliente() {
 		setDiaschave(30);
@@ -281,11 +284,11 @@ public class Cliente implements Serializable {
 		this.endereco = endereco.toUpperCase();
 	}
 
-	public Ticket getTicket() {
+	public List<Ticket> getTicket() {
 		return ticket;
 	}
 
-	public void setTicket(Ticket ticket) {
+	public void setTicket(List<Ticket> ticket) {
 		this.ticket = ticket;
 	}
 

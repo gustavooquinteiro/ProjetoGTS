@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.SiteGTS.model.Cliente;
+import com.SiteGTS.model.Nivel;
+import com.SiteGTS.model.Status;
 import com.SiteGTS.model.Ticket;
 import com.SiteGTS.model.Usuario;
 import com.SiteGTS.repository.Clientes;
@@ -45,9 +47,6 @@ public class CadastroTicketBean implements Serializable {
 	}
 
 	public void salvar() {
-		ticket.setCliente(cliente);
-		cliente.setTicket(ticket);
-
 		cts.salvar(ticket);
 		limpar();
 		FacesUtil.addInfoMessage("Chamado aberto com sucesso!");
@@ -119,4 +118,13 @@ public class CadastroTicketBean implements Serializable {
 	public void setOp(String op) {
 		this.op = op;
 	}
+
+	public Status[] getStatus() {
+		return Status.values();
+	}
+
+	public Nivel[] getNivel() {
+		return Nivel.values();
+	}
+
 }
