@@ -8,14 +8,16 @@
 	<ui:define name="titulo">Gestão Sistemas</ui:define>
 	<ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="ticket" value="#{cadastroTicketBean.ticket}" />
+			<o:viewParam name="ticketview" value="#{cadastroTicketBean.ticket}" />
 		</f:metadata>
 
 		<h1>Tickets</h1>
 		<h:form id="cadastroticket">
 			<fieldset class="fieldset">
 				<p:messages autoUpdate="true" closable="true" />
-
+				<!--COLOCAR ESSE CODIGO NO MANAGED BEAN DESSA PÁGINA
+DateFormat dataHora = DateFormat.getDateTimeInstance();
+dataHora.format(diaAtual); -->
 				<div style="width: 400px;">
 
 					<div class="float-left formato-coluna">
@@ -103,7 +105,7 @@
 						value="#{cadastroTicketBean.ticket.rotina}"
 						style="display: block; margin-bottom: 15px; width: 100%" />
 
-<!-- 					<o:importConstants type="com.SiteGTS.model.Nivel" /> -->
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Nivel" /> -->
 					<p:outputLabel value="Nível: " for="nivel" />
 					<p:selectOneRadio id="nivel"
 						value="#{cadastroTicketBean.ticket.nivel}"
@@ -111,7 +113,7 @@
 						<f:selectItems value="#{dataBean.nivel}" />
 					</p:selectOneRadio>
 
-<!-- 					<o:importConstants type="com.SiteGTS.model.Status" /> -->
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Status" /> -->
 					<p:outputLabel value="Status do Ticket: " for="status" />
 					<p:selectOneRadio id="status"
 						value="#{cadastroTicketBean.ticket.status}"
@@ -142,7 +144,7 @@
 							icon="ui-icon-circle-plus" />
 
 						<p:button value="Ver chamados"
-							outcome="/chamados/ListagemTicket.xhtml" icon="ui-icon-search" />
+							outcome="/chamados/PesquisaTicket.xhtml" icon="ui-icon-search" />
 
 					</p:toolbarGroup>
 				</p:toolbar>

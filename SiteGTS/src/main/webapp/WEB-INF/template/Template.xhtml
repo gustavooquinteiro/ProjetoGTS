@@ -53,6 +53,9 @@
 					<p:submenu label="Chamados" icon=" fa fa-fw fa-ticket">
 						<p:menuitem value="Novo" icon="fa fa-fw fa-plus"
 							outcome="/chamados/CadastroTicket.xhtml" />
+						<p:menuitem value="Ver chamados"
+							outcome="/chamados/ListagemTicket.xhtml"
+							icon="fa fa-fw fa-search" />
 						<p:menuitem value="Relatórios" icon="fa fa-fw fa-file-pdf-o" />
 					</p:submenu>
 					<p:separator />
@@ -82,7 +85,7 @@
 
 	<footer>
 	<p style="float: right; right: 10;">
-		&copy; Copyright 2017 - Painel administrativo <a
+		&copy; Copyright #{dataBean.anoAtual} - Painel administrativo <a
 			href="http://www.gestaosistemas.com">Gestão Sistemas</a>
 	</p>
 	</footer>

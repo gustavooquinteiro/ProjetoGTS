@@ -1,8 +1,8 @@
 package com.SiteGTS.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.DateFormat;
+import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +25,7 @@ public class Ticket implements Serializable {
 	private String solucao;
 
 	@ManyToOne
-	@JoinColumn(name="cliente_id")
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
 	private Nivel nivel;
@@ -35,18 +35,17 @@ public class Ticket implements Serializable {
 	private String motivoAlteracao;
 	private Status status;
 	private String tipoTicket;
-	private String dataTicket;
+	private Calendar dataAbertura;
+	private Calendar dataFechamento;
 	private Rotina rotina;
 
 	public Ticket() {
-		setDataTicket(retornaDataAtual());
+		setDataAbertura(retornaDataAtual());
 	}
 
-	private String retornaDataAtual() {
-		Date data = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		String dataCadastroTicket = sdf.format(data);
-		return dataCadastroTicket;
+	public Calendar retornaDataAtual() {
+		Calendar diaAtual = Calendar.getInstance();
+		return diaAtual;
 	}
 
 	public Long getId() {
@@ -62,7 +61,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setSolicitante(String solicitante) {
-		this.solicitante = solicitante;
+		this.solicitante = solicitante.toUpperCase();
 	}
 
 	public String getAtendente() {
@@ -70,7 +69,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setAtendente(String atendente) {
-		this.atendente = atendente;
+		this.atendente = atendente.toUpperCase();
 	}
 
 	public String getTecnico() {
@@ -78,7 +77,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setTecnico(String tecnico) {
-		this.tecnico = tecnico;
+		this.tecnico = tecnico.toUpperCase();
 	}
 
 	public String getProblema() {
@@ -86,7 +85,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setProblema(String problema) {
-		this.problema = problema;
+		this.problema = problema.toUpperCase();
 	}
 
 	public String getSolucao() {
@@ -94,7 +93,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setSolucao(String solucao) {
-		this.solucao = solucao;
+		this.solucao = solucao.toUpperCase();
 	}
 
 	public boolean isBackupBanco() {
@@ -110,7 +109,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setMotivoBackup(String motivoBackup) {
-		this.motivoBackup = motivoBackup;
+		this.motivoBackup = motivoBackup.toUpperCase();
 	}
 
 	public boolean isAlteracaoBanco() {
@@ -126,7 +125,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setMotivoAlteracao(String motivoAlteracao) {
-		this.motivoAlteracao = motivoAlteracao;
+		this.motivoAlteracao = motivoAlteracao.toUpperCase();
 	}
 
 	public String getTipoTicket() {
@@ -134,15 +133,26 @@ public class Ticket implements Serializable {
 	}
 
 	public void setTipoTicket(String tipoTicket) {
-		this.tipoTicket = tipoTicket;
+		this.tipoTicket = tipoTicket.toUpperCase();
 	}
 
-	public String getDataTicket() {
-		return dataTicket;
+	public Calendar getDataAbertura() {
+		return dataAbertura;
 	}
 
-	public void setDataTicket(String dataTicket) {
-		this.dataTicket = dataTicket;
+	public void setDataAbertura(Calendar dataTicket) {
+		this.dataAbertura = dataTicket;
+	}
+
+	public Calendar getDataFechamento() {
+		if (this.status.equals(Status.FECHADO)) {
+			setDataFechamento(retornaDataAtual());
+		}
+		return dataFechamento;
+	}
+
+	public void setDataFechamento(Calendar dataFechamento) {
+		this.dataFechamento = dataFechamento;
 	}
 
 	public Cliente getCliente() {
@@ -177,4 +187,8 @@ public class Ticket implements Serializable {
 		this.rotina = rotina;
 	}
 
+	public String retornaDataString() {
+		DateFormat dataHora = DateFormat.getDateTimeInstance();
+		return dataHora.format(this.getDataAbertura());
+	}
 }

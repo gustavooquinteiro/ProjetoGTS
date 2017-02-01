@@ -1,0 +1,92 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Gestão Sistemas - Consulta</ui:define>
+	<ui:define name="corpo">
+
+		<h:form id="frm">
+			<p:messages autoUpdate="true" closable="true" />
+			<h1 style="margin-top: 2em">Listagem de Tickets</h1>
+
+			<p:panelGrid columns="3" style="width: 100%"
+				columnClasses="rotulo, campo">
+				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
+				<p:selectOneMenu id="pesquisapor" style="width:40%">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Data" itemValue="data" />
+					<f:selectItem itemLabel="Razão Social" itemValue="razaosocial" />
+					<f:selectItem itemLabel="Inscrição" itemValue="inscricao" />
+					<f:selectItem itemLabel="Status" itemValue="status" />
+				</p:selectOneMenu>
+				<p:inputText id="pesquisa" value="#{pesquisaClienteBean.pesquisa}"
+					style="width: 99%" />
+			</p:panelGrid>
+
+			<p:toolbar style="margin-bottom: 1em;">
+				<p:toolbarGroup>
+					<p:commandButton value="Consultar"
+						action="#{pesquisaTicketBean.pesquisar}" update="ticketsTable" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Novo Chamado"
+						outcome="/chamados/CadastroTicket.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:dataTable id="ticketsTable"
+				emptyMessage="Nenhum ticket cadastrado" rows="10" paginator="true"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom"
+				value="#{pesquisaTicketBean.ticketsFiltrados}" var="ticket">
+
+				<p:column headerText="Ticket" style="width:5em; text-align: center;">
+					<h:outputText value="#{ticket.id}" />
+				</p:column>
+
+				<p:column headerText="Cliente">
+					<h:outputText value="#{ticket.cliente.nome}" />
+				</p:column>
+
+				<p:column headerText="Técnico">
+					<h:outputText value="#{ticket.tecnico}" />
+				</p:column>
+
+				<p:column headerText="Data" style="width: 10em">
+					<h:outputText value="#{pesquisaTicketBean.data}" />
+				</p:column>
+
+				<p:column headerText="Nível"
+					style="width: 4em; text-align: center; ">
+					<h:outputText id="nivel" value="#{ticket.nivel}" />
+				</p:column>
+
+				<p:column headerText="Status"
+					style="width: 4em; text-align: center; ">
+					<h:outputText id="status" value="#{ticket.status}" />
+				</p:column>
+
+				<p:column style="width: 4em">
+					<p:button title="Editar" icon="ui-icon-pencil"
+						outcome="/chamados/CadastroTicket.xhtml">
+						<f:param value="#{ticket.id}" name="ticket" />
+					</p:button>
+
+					<p:button title="Visualizar" icon="fa fa-fw fa-eye"
+						outcome="/chamados/VisualizacaoTicket.xhtml">
+						<f:param value="#{ticket.id}" name="ticketview" />
+					</p:button>
+					
+					<p:button title="Enviar por e-mail" icon="fa fa-fw fa-send"/>
+					
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
