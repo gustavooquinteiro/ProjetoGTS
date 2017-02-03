@@ -103,23 +103,29 @@
 						value="#{cadastroTicketBean.ticket.rotina}"
 						style="display: block; margin-bottom: 15px; width: 100%" />
 
-<!-- 					<o:importConstants type="com.SiteGTS.model.Nivel" /> -->
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Nivel" /> -->
 					<p:outputLabel value="Nível: " for="nivel" />
 					<p:selectOneRadio id="nivel"
 						value="#{cadastroTicketBean.ticket.nivel}"
 						style="display: block; margin-bottom: 15px; width: 100%">
-						<f:selectItems value="#{dataBean.nivel}" />
+						<f:selectItem itemLabel="Baixo" itemValue="0" />
+						<f:selectItem itemLabel="Médio" itemValue="1" />
+						<f:selectItem itemLabel="Alto" itemValue="2" />
+						<f:selectItem itemLabel="Urgente" itemValue="3" />
 					</p:selectOneRadio>
 
-<!-- 					<o:importConstants type="com.SiteGTS.model.Status" /> -->
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Status" /> -->
 					<p:outputLabel value="Status do Ticket: " for="status" />
 					<p:selectOneRadio id="status"
 						value="#{cadastroTicketBean.ticket.status}"
 						style="display: block; margin-bottom: 15px; width: 100%">
-						<f:selectItems value="#{dataBean.status}" />
+						<f:selectItem itemLabel="Aberto" itemValue="0" />
+						<f:selectItem itemLabel="Em andamento" itemValue="1" />
+						<f:selectItem itemLabel="Fechado" itemValue="2" />
+
 					</p:selectOneRadio>
 
-					<p:outputLabel value="Tipo do Ticket: " for="tipo" />
+					<p:outputLabel value="Tipo do Ticket:" for="tipo" />
 					<p:selectOneRadio id="tipo"
 						value="#{cadastroTicketBean.ticket.tipoTicket}"
 						style="display: block; margin-bottom: 15px; width: 96%">

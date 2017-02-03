@@ -1,6 +1,7 @@
 package com.SiteGTS.controller;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.SiteGTS.model.Cliente;
-import com.SiteGTS.model.Status;
 import com.SiteGTS.model.Ticket;
 import com.SiteGTS.model.Usuario;
 import com.SiteGTS.repository.Clientes;
@@ -38,21 +38,26 @@ public class CadastroTicketBean implements Serializable {
 	private List<Cliente> clientesListados;
 	private List<Usuario> usuarios;
 
+	private String dataAbertura;
+	private String dataFechamento;
+
 	@Inject
 	private Usuarios user;
+
+	DateFormat dataHora = DateFormat.getDateTimeInstance();
 
 	public CadastroTicketBean() {
 		limpar();
 	}
 
 	public void salvar() {
-		if (this.ticket.getStatus().equals(Status.FECHADO)) {
-			FacesUtil.addInfoMessage("Chamado fechado com sucesso!");
-			this.ticket.setDataFechamento(ticket.retornaDataAtual());
-		} else if (this.ticket.getStatus().equals(Status.ABERTO)) {
+		if (this.ticket.getStatus() == 0) {
 			FacesUtil.addInfoMessage("Chamado aberto com sucesso!");
-		} else if(this.ticket.getStatus().equals(Status.EM_ANDAMENTO)){
+			this.ticket.setDataFechamento(ticket.retornaDataAtual());
+		} else if (this.ticket.getStatus() == 1) {
 			FacesUtil.addInfoMessage("Chamado atualizado com sucesso!");
+		} else if (this.ticket.getStatus() == 2) {
+			FacesUtil.addInfoMessage("Chamado fechado com sucesso!");
 		}
 		cts.salvar(ticket);
 		limpar();
@@ -123,6 +128,24 @@ public class CadastroTicketBean implements Serializable {
 
 	public void setOp(String op) {
 		this.op = op;
+	}
+
+	public String getDataFechamento() {
+		dataFechamento = dataHora.format(this.ticket.getDataFechamento()); 
+		return dataFechamento;
+	}
+
+	public void setDataFechamento(String dataFechamento) {
+		this.dataFechamento = dataFechamento; 
+	}
+
+	public String getDataAbertura() {
+		dataAbertura = dataHora.format(this.ticket.getDataAbertura()); 
+		return dataAbertura;
+	}
+
+	public void setDataAbertura(String dataAbertura) {
+		this.dataAbertura = dataAbertura; 
 	}
 
 }

@@ -16,14 +16,18 @@
 			<p:panelGrid columns="3" style="width: 100%"
 				columnClasses="rotulo, campo">
 				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
-				<p:selectOneMenu id="pesquisapor" style="width:40%">
+				<p:selectOneMenu id="pesquisapor" style="width:40%"
+					value="#{pesquisaTicketBean.op}">
 					<f:selectItem itemLabel=" " itemValue="vazio" />
-					<f:selectItem itemLabel="Data" itemValue="data" />
-					<f:selectItem itemLabel="Razão Social" itemValue="razaosocial" />
-					<f:selectItem itemLabel="Inscrição" itemValue="inscricao" />
+					<f:selectItem itemLabel="Data inicial" itemValue="dataAbertura" />
+					<f:selectItem itemLabel="Data Final" itemValue="dataFechamento" />
+					<f:selectItem itemLabel="Razao Social" itemValue="razaosocial" />
+					<f:selectItem itemLabel="Técnico" itemValue="tecnico" />
 					<f:selectItem itemLabel="Status" itemValue="status" />
+					<f:selectItem itemLabel="Nível" itemValue="nivel" />
+
 				</p:selectOneMenu>
-				<p:inputText id="pesquisa" value="#{pesquisaClienteBean.pesquisa}"
+				<p:inputText id="pesquisa" value="#{pesquisaTicketBean.pesquisa}"
 					style="width: 99%" />
 			</p:panelGrid>
 
@@ -48,7 +52,10 @@
 				</p:column>
 
 				<p:column headerText="Cliente">
-					<h:outputText value="#{ticket.cliente.nome}" />
+					<h:outputText value="#{ticket.cliente.razaosocial}" />
+					<br /> CNPJ: 
+					<h:outputText value="#{ticket.cliente.cnpj}"
+						style="font-size: .75em; " />
 				</p:column>
 
 				<p:column headerText="Técnico">
@@ -61,12 +68,12 @@
 
 				<p:column headerText="Nível"
 					style="width: 4em; text-align: center; ">
-					<h:outputText id="nivel" value="#{ticket.nivel}" />
+					<h:outputText id="nivel" value="#{pesquisaTicketBean.nivel}" />
 				</p:column>
 
 				<p:column headerText="Status"
 					style="width: 4em; text-align: center; ">
-					<h:outputText id="status" value="#{ticket.status}" />
+					<h:outputText id="status" value="#{pesquisaTicketBean.status}" />
 				</p:column>
 
 				<p:column style="width: 4em">
@@ -79,9 +86,9 @@
 						outcome="/chamados/VisualizacaoTicket.xhtml">
 						<f:param value="#{ticket.id}" name="ticketview" />
 					</p:button>
-					
-					<p:button title="Enviar por e-mail" icon="fa fa-fw fa-send"/>
-					
+
+					<p:button title="Enviar por e-mail" icon="fa fa-fw fa-send" />
+
 				</p:column>
 
 			</p:dataTable>

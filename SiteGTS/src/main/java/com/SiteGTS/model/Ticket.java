@@ -28,12 +28,12 @@ public class Ticket implements Serializable {
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
-	private Nivel nivel;
+	private int nivel;
 	private boolean backupBanco;
 	private String motivoBackup;
 	private boolean alteracaoBanco;
 	private String motivoAlteracao;
-	private Status status;
+	private int status;
 	private String tipoTicket;
 	private Calendar dataAbertura;
 	private Calendar dataFechamento;
@@ -145,7 +145,7 @@ public class Ticket implements Serializable {
 	}
 
 	public Calendar getDataFechamento() {
-		if (this.status.equals(Status.FECHADO)) {
+		if (this.status == 2) {
 			setDataFechamento(retornaDataAtual());
 		}
 		return dataFechamento;
@@ -163,19 +163,19 @@ public class Ticket implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public Nivel getNivel() {
+	public int getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(Nivel nivel) {
+	public void setNivel(int nivel) {
 		this.nivel = nivel;
 	}
 
-	public Status getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 import com.SiteGTS.model.Ticket;
 import com.SiteGTS.util.jpa.Transactional;
@@ -31,9 +33,29 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> pesquisar() {
+	public List<Ticket> pesquisar(String op, String pesquisa) {
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(Ticket.class);
+		if (op.equals("razaosocial") || op.equals("tecnico"))
+		criteria.add(Restrictions.ilike(op, pesquisa, MatchMode.START));
+		if (op.equals("status")){
+			if (pesquisa.equals("ABERTO"))
+				criteria.add(Restrictions.eq(op, 0));
+			if (pesquisa.equals("EM ANDAMENTO"))
+				criteria.add(Restrictions.eq(op, 1));
+			if (pesquisa.equals("FECHADO"))
+				criteria.add(Restrictions.eq(op, 2));
+		}
+		if (op.equals("nivel")){
+			if (pesquisa.equals("BAIXO"))
+				criteria.add(Restrictions.eq(op, 0));
+			if (pesquisa.equals("MEDIO") || pesquisa.equals("MÉDIO"))
+				criteria.add(Restrictions.eq(op, 1));
+			if (pesquisa.equals("ALTO"))
+				criteria.add(Restrictions.eq(op, 2));
+			if (pesquisa.equals("URGENTE"))
+				criteria.add(Restrictions.eq(op, 3));		
+		}
 		return criteria.list();
 	}
 

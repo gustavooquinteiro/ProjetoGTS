@@ -44,6 +44,7 @@
 	 	<intercept-url pattern="/usuarios/PesquisaUsuario.xhtml" access="hasAnyRole('ADMINISTRADOR')"/>
 		<intercept-url pattern="/clientes/**" access="hasAnyRole('SUPORTE', 'ADMINISTRADOR')" />
 		<intercept-url pattern="/chaves/**" access="hasAnyRole('SUPORTE', 'ADMINISTRADOR')" />
+		<intercept-url pattern="/chamados/**" access="hasAnyRole('SUPORTE', 'ADMINISTRADOR')"/>
 		
 		<intercept-url pattern="/**" access="isAuthenticated()" />
  
