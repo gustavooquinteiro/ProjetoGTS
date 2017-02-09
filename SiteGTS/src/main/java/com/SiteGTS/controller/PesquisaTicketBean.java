@@ -1,7 +1,6 @@
 package com.SiteGTS.controller;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.SiteGTS.model.Ticket;
-import com.SiteGTS.repository.Tickets;
+import com.SiteGTS.service.PesquisaTicketService;
 
 @Named
 @ViewScoped
@@ -19,8 +18,7 @@ public class PesquisaTicketBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private Tickets tickets;
-
+	private PesquisaTicketService pts;
 	private String nome;
 	private List<Ticket> ticketsFiltrados;
 	private Ticket ticketSelecionado;
@@ -28,8 +26,8 @@ public class PesquisaTicketBean implements Serializable {
 	private String nivel;
 	private String status;
 	private String op;
-	private String pesquisa; 
-	
+	private String pesquisa;
+
 	public String getOp() {
 		return op;
 	}
@@ -52,29 +50,7 @@ public class PesquisaTicketBean implements Serializable {
 	}
 
 	public void pesquisar() {
-		ticketsFiltrados = tickets.pesquisar(op, pesquisa);
-		for (Ticket ticket : ticketsFiltrados) {
-			DateFormat dataHora = DateFormat.getDateInstance();
-			setData(dataHora.format(ticket.getDataAbertura().getTime()));
-
-			if (ticket.getStatus() == 0) {
-				status = "Aberto";
-			} else if (ticket.getStatus() == 1) {
-				status = "Em andamento";
-			} else if (ticket.getStatus() == 2) {
-				status = "Fechado";
-			}
-
-			if (ticket.getNivel() == 0) {
-				nivel = "Baixo";
-			} else if (ticket.getNivel() == 1) {
-				nivel = "Médio";
-			} else if (ticket.getNivel() == 2) {
-				nivel = "Alto";
-			} else if (ticket.getNivel() == 3) {
-				nivel = "Urgente";
-			}
-		}
+		ticketsFiltrados = pts.pesquisar(op, pesquisa);
 	}
 
 	public String getData() {
@@ -83,11 +59,6 @@ public class PesquisaTicketBean implements Serializable {
 
 	public void setData(String format) {
 		this.data = format;
-	}
-
-	public void excluir() {
-		tickets.remover(ticketSelecionado);
-		ticketsFiltrados.remove(ticketSelecionado);
 	}
 
 	public String getNome() {

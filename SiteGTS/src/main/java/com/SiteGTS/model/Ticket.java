@@ -1,8 +1,8 @@
 package com.SiteGTS.model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,17 +35,19 @@ public class Ticket implements Serializable {
 	private String motivoAlteracao;
 	private int status;
 	private String tipoTicket;
-	private Calendar dataAbertura;
-	private Calendar dataFechamento;
+	private String dataAbertura;
+	private String dataFechamento;
 	private Rotina rotina;
 
 	public Ticket() {
 		setDataAbertura(retornaDataAtual());
 	}
 
-	public Calendar retornaDataAtual() {
-		Calendar diaAtual = Calendar.getInstance();
-		return diaAtual;
+	public String retornaDataAtual() {
+		Date data = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String dataCadastro = sdf.format(data);
+		return dataCadastro;
 	}
 
 	public Long getId() {
@@ -136,23 +138,21 @@ public class Ticket implements Serializable {
 		this.tipoTicket = tipoTicket.toUpperCase();
 	}
 
-	public Calendar getDataAbertura() {
-		return dataAbertura;
+	public String getDataAbertura() {
+		return this.dataAbertura;
 	}
 
-	public void setDataAbertura(Calendar dataTicket) {
+	public void setDataAbertura(String dataTicket) {
 		this.dataAbertura = dataTicket;
 	}
 
-	public Calendar getDataFechamento() {
-		if (this.status == 2) {
-			setDataFechamento(retornaDataAtual());
-		}
-		return dataFechamento;
+	public String getDataFechamento() {
+		return this.dataFechamento;
 	}
 
-	public void setDataFechamento(Calendar dataFechamento) {
-		this.dataFechamento = dataFechamento;
+	public void setDataFechamento(String dataFechamento) {
+		if (this.status == 2)
+			this.dataFechamento = retornaDataAtual();
 	}
 
 	public Cliente getCliente() {
@@ -187,8 +187,29 @@ public class Ticket implements Serializable {
 		this.rotina = rotina;
 	}
 
-	public String retornaDataString() {
-		DateFormat dataHora = DateFormat.getDateTimeInstance();
-		return dataHora.format(this.getDataAbertura());
+	public String getDescricaoNivel() {
+		String descricao = "";
+		if (this.nivel == 0)
+			descricao = "BAIXO";
+		if (this.nivel == 1)
+			descricao = "MÉDIO";
+		if (this.nivel == 2)
+			descricao = "ALTO";
+		if (this.nivel == 3)
+			descricao = "URGENTE";
+
+		return descricao;
 	}
+
+	public String getDescricaoStatus() {
+		String descricao = "";
+		if (this.status == 0)
+			descricao = "ABERTO";
+		if (this.status == 1)
+			descricao = "EM ANDAMENTO";
+		if (this.status == 2)
+			descricao = "FECHADO";
+		return descricao;
+	}
+
 }

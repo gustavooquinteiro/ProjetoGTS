@@ -21,7 +21,7 @@
 					<f:selectItem itemLabel=" " itemValue="vazio" />
 					<f:selectItem itemLabel="Data inicial" itemValue="dataAbertura" />
 					<f:selectItem itemLabel="Data Final" itemValue="dataFechamento" />
-					<f:selectItem itemLabel="Razao Social" itemValue="razaosocial" />
+					<f:selectItem itemLabel="Razão Social" itemValue="razaosocial" />
 					<f:selectItem itemLabel="Técnico" itemValue="tecnico" />
 					<f:selectItem itemLabel="Status" itemValue="status" />
 					<f:selectItem itemLabel="Nível" itemValue="nivel" />
@@ -63,17 +63,17 @@
 				</p:column>
 
 				<p:column headerText="Data" style="width: 10em">
-					<h:outputText value="#{pesquisaTicketBean.data}" />
+					<h:outputText value="#{ticket.dataAbertura}" />
 				</p:column>
 
 				<p:column headerText="Nível"
 					style="width: 4em; text-align: center; ">
-					<h:outputText id="nivel" value="#{pesquisaTicketBean.nivel}" />
+					<h:outputText id="nivel" value="#{ticket.descricaoNivel}" />
 				</p:column>
 
 				<p:column headerText="Status"
 					style="width: 4em; text-align: center; ">
-					<h:outputText id="status" value="#{pesquisaTicketBean.status}" />
+					<h:outputText id="status" value="#{ticket.descricaoStatus}" />
 				</p:column>
 
 				<p:column style="width: 4em">
