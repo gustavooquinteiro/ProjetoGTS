@@ -53,11 +53,12 @@ public class CadastroTicketBean implements Serializable {
 	public void salvar() {
 		if (this.ticket.getStatus() == 0) {
 			FacesUtil.addInfoMessage("Chamado aberto com sucesso!");
-			this.ticket.setDataFechamento(ticket.retornaDataAtual());
+			this.ticket.setDataAbertura(ticket.retornaDataAtual());
 		} else if (this.ticket.getStatus() == 1) {
 			FacesUtil.addInfoMessage("Chamado atualizado com sucesso!");
 		} else if (this.ticket.getStatus() == 2) {
 			FacesUtil.addInfoMessage("Chamado fechado com sucesso!");
+			this.ticket.setDataFechamento(ticket.retornaDataAtual());
 		}
 		cts.salvar(ticket);
 		limpar();
@@ -131,7 +132,6 @@ public class CadastroTicketBean implements Serializable {
 	}
 
 	public String getDataFechamento() {
-		dataFechamento = dataHora.format(this.ticket.getDataFechamento()); 
 		return dataFechamento;
 	}
 
@@ -140,7 +140,6 @@ public class CadastroTicketBean implements Serializable {
 	}
 
 	public String getDataAbertura() {
-		dataAbertura = dataHora.format(this.ticket.getDataAbertura()); 
 		return dataAbertura;
 	}
 

@@ -40,14 +40,14 @@ public class Ticket implements Serializable {
 	private Rotina rotina;
 
 	public Ticket() {
-		setDataAbertura(retornaDataAtual());
+
 	}
 
 	public String retornaDataAtual() {
-		Date data = new Date();
+		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		String dataCadastro = sdf.format(data);
-		return dataCadastro;
+		String data = sdf.format(date);
+		return data;
 	}
 
 	public Long getId() {
@@ -151,8 +151,7 @@ public class Ticket implements Serializable {
 	}
 
 	public void setDataFechamento(String dataFechamento) {
-		if (this.status == 2)
-			this.dataFechamento = retornaDataAtual();
+		this.dataFechamento = dataFechamento;
 	}
 
 	public Cliente getCliente() {

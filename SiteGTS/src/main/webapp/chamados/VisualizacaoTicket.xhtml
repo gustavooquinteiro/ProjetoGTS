@@ -15,28 +15,28 @@
 		<h:form id="cadastroticket">
 			<fieldset class="fieldset">
 				<p:messages autoUpdate="true" closable="true" />
-				<!--COLOCAR ESSE CODIGO NO MANAGED BEAN DESSA PÁGINA
- -->
 				<div style="width: 400px;">
 
 					<div class="float-left formato-coluna">
 						<p:outputLabel value="Data de abertura do chamado" />
-						<p:inputText value="#{cadastroTicketBean.dataAbertura}"
+						<p:inputText value="#{cadastroTicketBean.ticket.dataAbertura}"
 							readonly="true" />
 					</div>
 
 					<div class="float-right">
 						<p:outputLabel value="Data de fechamento do chamado" />
-						<p:inputText value="#{cadastroTicketBean.dataFechamento}"
+						<p:inputText value="#{cadastroTicketBean.ticket.dataFechamento}"
 							readonly="true" />
 					</div>
 
 					<div class="clear" />
 
-					<p:outputLabel value="Empresa" />
-					<p:inputText readonly="true"
-						value="#{cadastroTicketBean.ticket.cliente.nome}" />
-
+					<div class="formato-linha">
+						<p:outputLabel value="Empresa" />
+						<p:inputText readonly="true"
+							value="#{cadastroTicketBean.ticket.cliente.razaosocial}"
+							style="display:block; width:100%" />
+					</div>
 					<div class="float-left">
 						<p:outputLabel value="Solicitante: " for="solicitante" />
 						<p:inputText id="solicitante"
@@ -90,7 +90,7 @@
 
 					<p:outputLabel value="Software: " for="software" />
 					<p:inputText id="software"
-						value="#{cadastroTicketBean.cliente.sistema}"
+						value="#{cadastroTicketBean.ticket.cliente.sistema}"
 						style="display: block; margin-bottom: 15px; width: 100%"
 						readonly="true" />
 
