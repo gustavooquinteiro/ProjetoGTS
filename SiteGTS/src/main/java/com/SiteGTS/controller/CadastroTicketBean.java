@@ -1,11 +1,13 @@
 package com.SiteGTS.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -38,9 +40,6 @@ public class CadastroTicketBean implements Serializable {
 	private List<Cliente> clientesListados;
 	private List<Usuario> usuarios;
 
-	private String dataAbertura;
-	private String dataFechamento;
-
 	@Inject
 	private Usuarios user;
 
@@ -56,18 +55,24 @@ public class CadastroTicketBean implements Serializable {
 			this.ticket.setDataAbertura(ticket.retornaDataAtual());
 		} else if (this.ticket.getStatus() == 1) {
 			FacesUtil.addInfoMessage("Chamado atualizado com sucesso!");
-		} else if (this.ticket.getStatus() == 2) {
+			this.ticket.setDataAbertura(ticket.retornaDataAtual());
+		} else if (this.ticket.getStatus() == 2 && this.ticket.getSolucao() != "") {
 			FacesUtil.addInfoMessage("Chamado fechado com sucesso!");
 			this.ticket.setDataFechamento(ticket.retornaDataAtual());
 		}
 		cts.salvar(ticket);
 		limpar();
+
 	}
 
 	private void limpar() {
 		clientesListados = new ArrayList<>();
 		ticket = new Ticket();
 		cliente = new Cliente();
+	}
+
+	public void redireciona() throws IOException {
+		FacesContext.getCurrentInstance().getExternalContext().redirect("ListagemTicket.xhtml");
 	}
 
 	public List<Cliente> completarEmpresa(String nome) {
@@ -129,22 +134,6 @@ public class CadastroTicketBean implements Serializable {
 
 	public void setOp(String op) {
 		this.op = op;
-	}
-
-	public String getDataFechamento() {
-		return dataFechamento;
-	}
-
-	public void setDataFechamento(String dataFechamento) {
-		this.dataFechamento = dataFechamento; 
-	}
-
-	public String getDataAbertura() {
-		return dataAbertura;
-	}
-
-	public void setDataAbertura(String dataAbertura) {
-		this.dataAbertura = dataAbertura; 
 	}
 
 }

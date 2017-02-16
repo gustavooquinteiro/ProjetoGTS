@@ -54,24 +54,14 @@
 
 					<div class="float-left formato-coluna">
 						<p:outputLabel value="Atendente" for="atendente" />
-						<p:selectOneMenu id="atendente"
-							value="#{cadastroTicketBean.ticket.atendente}"
-							style="display: block; margin-bottom: 15px;" disabled="true">
-							<f:selectItems value="#{cadastroTicketBean.usuarios}"
-								var="atendente" itemLabel="#{atendente.nome}"
-								itemValue="#{atendente.nome}" />
-						</p:selectOneMenu>
+						<p:inputText id="atendente"
+							value="#{cadastroTicketBean.ticket.atendente}" readonly="true" />
 					</div>
 
 					<div class="float-right formato-coluna">
 						<p:outputLabel value="Técnico" for="tecnico" />
-						<p:selectOneMenu id="tecnico"
-							value="#{cadastroTicketBean.ticket.tecnico}"
-							style="display: block; margin-bottom: 15px;" disabled="true">
-							<f:selectItems value="#{cadastroTicketBean.usuarios}"
-								var="tecnico" itemLabel="#{tecnico.nome}"
-								itemValue="#{tecnico.nome}" />
-						</p:selectOneMenu>
+						<p:inputText id="tecnico"
+							value="#{cadastroTicketBean.ticket.tecnico}" readonly="true" />
 					</div>
 
 					<div class="clear" />
@@ -128,10 +118,10 @@
 						value="#{cadastroTicketBean.ticket.tipoTicket}"
 						style="display: block; margin-bottom: 15px; width: 96%"
 						disabled="true">
-						<f:selectItem itemValue="Contrato" itemLabel="Contrato" />
-						<f:selectItem itemValue="Cortesia" itemLabel="Cortesia" />
-						<f:selectItem itemValue="Garantia" itemLabel="Garantia" />
-						<f:selectItem itemValue="Cobrança" itemLabel="Cobrança" />
+						<f:selectItem itemValue="0" itemLabel="Contrato" />
+						<f:selectItem itemValue="1" itemLabel="Cortesia" />
+						<f:selectItem itemValue="2" itemLabel="Garantia" />
+						<f:selectItem itemValue="3" itemLabel="Cobrança" />
 					</p:selectOneRadio>
 
 					<div style="padding-bottom: 1.5em;" />

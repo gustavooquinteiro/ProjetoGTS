@@ -14,7 +14,6 @@
 		<h1>Tickets</h1>
 		<h:form id="cadastroticket">
 			<fieldset class="fieldset">
-				<p:messages autoUpdate="true" closable="true" />
 
 				<div style="width: 400px;">
 
@@ -129,19 +128,21 @@
 					<p:selectOneRadio id="tipo"
 						value="#{cadastroTicketBean.ticket.tipoTicket}"
 						style="display: block; margin-bottom: 15px; width: 96%">
-						<f:selectItem itemValue="Contrato" itemLabel="Contrato" />
-						<f:selectItem itemValue="Cortesia" itemLabel="Cortesia" />
-						<f:selectItem itemValue="Garantia" itemLabel="Garantia" />
-						<f:selectItem itemValue="Cobrança" itemLabel="Cobrança" />
+						<f:selectItem itemValue="0" itemLabel="Contrato" />
+						<f:selectItem itemValue="1" itemLabel="Cortesia" />
+						<f:selectItem itemValue="2" itemLabel="Garantia" />
+						<f:selectItem itemValue="3" itemLabel="Cobrança" />
 					</p:selectOneRadio>
 
 					<div style="padding-bottom: 1.5em;" />
 				</div>
+				<!-- 				<p:messages autoUpdate="true" closable="true" />-->
 				<p:toolbar>
 					<p:toolbarGroup>
 
 						<p:commandButton value="Salvar" icon="ui-icon-disk"
-							action="#{cadastroTicketBean.salvar}" update="cadastroticket" />
+							action="#{cadastroTicketBean.salvar}" update="cadastroticket"
+							oncomplete="PF('confirmacaoSalvamento')" />
 
 						<p:button value="Novo Chamado"
 							outcome="/chamados/CadastroTicket.xhtml"
@@ -151,8 +152,17 @@
 							outcome="/chamados/ListagemTicket.xhtml" icon="ui-icon-search" />
 
 					</p:toolbarGroup>
+					<p:confirmDialog header="Cadastro de Ticket feito com sucesso"
+						message="Ticket cadastrado com sucesso"
+						widgetVar="confirmacaoSalvamento" id="confirmSalvar"
+						responsive="true">
+						<p:commandButton value="OK"
+							oncomplete="PF('confirmacaoSalvamento').hide();"
+							action="#{cadastroTicketBean.redireciona}" />
+					</p:confirmDialog>
 				</p:toolbar>
 			</fieldset>
+
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -1,0 +1,51 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<f:metadata>
+		<f:viewParam name="dummy" />
+		<f:event listener="#{graficosBean.preRender}" type="preRenderView" />
+	</f:metadata>
+
+	<ui:define name="titulo">Gestão Sistemas - Consulta</ui:define>
+	<ui:define name="corpo">
+		<h:form id="frm">
+			<p:messages autoUpdate="true" closable="true" />
+
+			<p:panelGrid columns="3" style="width: 100%"
+				columnClasses="rotulo, campo">
+				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
+				<p:selectOneMenu id="pesquisapor"
+					value="#{graficosBean.opcao}" style="width:40%">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Tickets por status" itemValue="porstatus" />
+					<f:selectItem itemLabel="Tickets por técnico"
+						itemValue="portecnico" />
+					<f:selectItem itemLabel="Tickets por rotinas" itemValue="porrotina" />
+					<f:selectItem itemLabel="Tickets por cliente"
+						itemValue="porcliente" />
+				</p:selectOneMenu>
+				De:
+				<p:calendar value="#{graficosBean.dataInicial}" />
+				Ate:
+				<p:calendar value="#{graficosBean.dataFinal}" />
+			</p:panelGrid>
+
+			<p:chart type="line" model="#{graficosBean.linha1}" responsive="true" />
+
+			<p:toolbar style="margin-bottom: 1em;">
+				<p:toolbarGroup>
+					<p:commandButton value="Consultar"
+						action="#{pesquisaClienteBean.pesquisar}" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

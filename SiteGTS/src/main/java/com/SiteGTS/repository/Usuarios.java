@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
-import com.SiteGTS.model.Grupo;
 import com.SiteGTS.model.Usuario;
 import com.SiteGTS.service.NegocioException;
 import com.SiteGTS.util.jpa.Transactional;

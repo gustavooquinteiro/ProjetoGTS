@@ -1,27 +1,32 @@
 package com.SiteGTS.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "tabelatickets")
 public class Ticket implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
-
+@Column(name="solicitante_nome")
 	private String solicitante;
-	private String atendente;
-	private String tecnico;
+
+	private int atendente;
+	private int tecnico;
+	@Column(name="descricao_problema")
 	private String problema;
+	@Column(name="descricao_solucao")
 	private String solucao;
 
 	@ManyToOne
@@ -34,20 +39,25 @@ public class Ticket implements Serializable {
 	private boolean alteracaoBanco;
 	private String motivoAlteracao;
 	private int status;
-	private String tipoTicket;
-	private String dataAbertura;
-	private String dataFechamento;
-	private Rotina rotina;
+
+	@Column(name = "tipo")
+	private int tipoTicket;
+	@Column(name = "data_abertura")
+	private Date dataAbertura;
+
+	private Date dataFechamento;
+
+	private int software;
+
+	private int rotina;
 
 	public Ticket() {
 
 	}
 
-	public String retornaDataAtual() {
+	public Date retornaDataAtual() {
 		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		String data = sdf.format(date);
-		return data;
+		return date;
 	}
 
 	public Long getId() {
@@ -58,6 +68,22 @@ public class Ticket implements Serializable {
 		this.id = id;
 	}
 
+	public int getSoftware() {
+		return software;
+	}
+
+	public void setSoftware(int software) {
+		this.software = software;
+	}
+
+	public int getRotina(){
+		return rotina;
+	}
+	
+	public void setRotina(int rotina) {
+		this.rotina = rotina;
+	}
+
 	public String getSolicitante() {
 		return solicitante;
 	}
@@ -66,20 +92,20 @@ public class Ticket implements Serializable {
 		this.solicitante = solicitante.toUpperCase();
 	}
 
-	public String getAtendente() {
+	public int getAtendente() {
 		return atendente;
 	}
 
-	public void setAtendente(String atendente) {
-		this.atendente = atendente.toUpperCase();
+	public void setAtendente(int atendente) {
+		this.atendente = atendente;
 	}
 
-	public String getTecnico() {
+	public int getTecnico() {
 		return tecnico;
 	}
 
-	public void setTecnico(String tecnico) {
-		this.tecnico = tecnico.toUpperCase();
+	public void setTecnico(int tecnico) {
+		this.tecnico = tecnico;
 	}
 
 	public String getProblema() {
@@ -130,27 +156,27 @@ public class Ticket implements Serializable {
 		this.motivoAlteracao = motivoAlteracao.toUpperCase();
 	}
 
-	public String getTipoTicket() {
+	public int getTipoTicket() {
 		return tipoTicket;
 	}
 
-	public void setTipoTicket(String tipoTicket) {
-		this.tipoTicket = tipoTicket.toUpperCase();
+	public void setTipoTicket(int tipoTicket) {
+		this.tipoTicket = tipoTicket;
 	}
 
-	public String getDataAbertura() {
+	public Date getDataAbertura() {
 		return this.dataAbertura;
 	}
 
-	public void setDataAbertura(String dataTicket) {
+	public void setDataAbertura(Date dataTicket) {
 		this.dataAbertura = dataTicket;
 	}
 
-	public String getDataFechamento() {
+	public Date getDataFechamento() {
 		return this.dataFechamento;
 	}
 
-	public void setDataFechamento(String dataFechamento) {
+	public void setDataFechamento(Date dataFechamento) {
 		this.dataFechamento = dataFechamento;
 	}
 
@@ -176,14 +202,6 @@ public class Ticket implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
-
-	public Rotina getRotina() {
-		return rotina;
-	}
-
-	public void setRotina(Rotina rotina) {
-		this.rotina = rotina;
 	}
 
 	public String getDescricaoNivel() {
