@@ -9,9 +9,14 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.chart.CartesianChartModel;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 import com.SiteGTS.repository.Tickets;
 
@@ -20,14 +25,95 @@ import com.SiteGTS.repository.Tickets;
 public class GraficosBean {
 
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
+
 	@Inject
 	private Tickets tickets;
 
-	private LineChartModel linha1;
-	private Date dataInicial;
-	private Date dataFinal;
-	private CartesianChartModel model;
+	private DateTime dataInicial;
+	private DateTime dataFinal;
+	private BarChartModel modeloBarra;
+	private LineChartModel modeloLinha;
+	private PieChartModel modeloPizza;
 	private String opcao;
+	private String rotulo;
+	private String tipoGrafico;
+	private int diasEntre = 30;
+
+	public void consultarGraficos() {
+		diasEntre = Days.daysBetween(dataInicial, dataFinal).getDays();
+
+		if (tipoGrafico.equals("bar")) {
+			adicionarSerieEmBarra();
+		}
+		if (tipoGrafico.equals("line")) {
+			adicionarSerieEmLinha(); 
+		}
+		if (tipoGrafico.equals("pie")) {
+			adicionarSerieEmPizza();
+		}
+
+		
+	}
+
+	private String tipoDePesquisa() {
+		if (opcao.equals("porstatus")){
+			this.rotulo = "Tickets por Status";
+			
+			
+		}
+		if (opcao.equals("portecnico")){
+			this.rotulo = "Tickets por Técnico";
+		}
+			
+		if (opcao.equals("porrotina")){
+			this.rotulo = "Tickets por rotina";
+		}
+			
+		if (opcao.equals("porcliente")){
+			this.rotulo = "Tickets por Cliente"; 
+			
+		}
+			
+		return rotulo; 
+	}
+
+	private void adicionarSerieEmPizza() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void adicionarSerieEmLinha() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void preRender() {
+		this.modeloBarra = new BarChartModel();
+		/*this.modeloLinha = new LineChartModel();
+		this.modeloPizza = new PieChartModel();*/
+
+		adicionarSerieEmBarra();
+
+	}
+
+	private void adicionarSerieEmBarra() {
+		Map<Integer, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+
+		ChartSeries series = new ChartSeries(tipoDePesquisa());
+
+		modeloBarra.setLegendPosition("e");
+		modeloBarra.setTitle(tipoDePesquisa());
+
+		Axis yAxis = modeloBarra.getAxis(AxisType.Y);
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+
+		for (Integer nome : resultado.keySet()) {
+			series.set(resultado.keySet(), resultado.get(nome));
+		}
+
+		modeloBarra.addSeries(series);
+	}
 
 	public String getOpcao() {
 		return opcao;
@@ -37,46 +123,39 @@ public class GraficosBean {
 		this.opcao = opcao;
 	}
 
-	public Date getDataInicial() {
+	public DateTime getDataInicial() {
 		return dataInicial;
 	}
 
-	public void setDataInicial(Date dataInicial) {
+	public void setDataInicial(DateTime dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
-	public Date getDataFinal() {
+	public DateTime getDataFinal() {
 		return dataFinal;
 	}
 
-	public void setDataFinal(Date dataFinal) {
+	public void setDataFinal(DateTime dataFinal) {
 		this.dataFinal = dataFinal;
 	}
 
-	public LineChartModel getLinha1() {
-		return linha1;
+	public BarChartModel getModeloBarra() {
+		return modeloBarra;
 	}
 
-	public void preRender() {
-		this.model = new CartesianChartModel();
-
-		adicionarSerie("Tickets por mês");
+	public LineChartModel getModeloLinha() {
+		return modeloLinha;
 	}
 
-	private void adicionarSerie(String rotulo) {
-		Map<Date, Long> resultado = this.tickets.ticketsPorMes(30);
-
-		ChartSeries series = new ChartSeries(rotulo);
-
-		for (Date data : resultado.keySet()) {
-			series.set(DATE_FORMAT.format(data), resultado.get(data));
-		}
-
-		this.model.addSeries(series);
-
+	public PieChartModel getModeloPizza() {
+		return modeloPizza;
 	}
 
-	public CartesianChartModel getModel() {
-		return model;
+	public String getTipoGrafico() {
+		return tipoGrafico;
+	}
+
+	public void setTipoGrafico(String tipoGrafico) {
+		this.tipoGrafico = tipoGrafico;
 	}
 }

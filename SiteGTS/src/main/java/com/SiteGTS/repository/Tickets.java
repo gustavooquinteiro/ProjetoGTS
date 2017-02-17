@@ -16,6 +16,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
@@ -26,6 +27,7 @@ import com.SiteGTS.filter.TicketFilter;
 import com.SiteGTS.model.Cliente;
 import com.SiteGTS.model.Ticket;
 import com.SiteGTS.model.TicketGTS;
+import com.SiteGTS.model.vo.DadosValor;
 import com.SiteGTS.model.vo.DataValor;
 import com.SiteGTS.util.jpa.Transactional;
 
@@ -90,15 +92,23 @@ public class Tickets implements Serializable {
 		return criteriaCliente.list();
 	}
 
-	/*@SuppressWarnings("unchecked")
-	public List<Ticket> ticketsPorStatus(Date dataInicio) {
+	@SuppressWarnings("unchecked")
+	public Map<Integer, Long> ticketsPorStatus(int numeroDias) {
+		Session session = manager.unwrap(Session.class);
 
-		Calendar dataInicial = Calendar.getInstance();
-		dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
-		dataInicial.add(Calendar.DAY_OF_MONTH, -30);
-		Map<Date, Long> resultado = criarMapaVazio(30, dataInicial);
-
-	}*/
+		numeroDias -= 1;
+		
+		Map<Integer,Long> resultado = criarMapaVazio(numeroDias);
+		Criteria criteria = session.createCriteria(TicketGTS.class);
+		criteria.setProjection(Projections.projectionList()
+				.add(Projections.count("id").as("valor")).add(Projections.groupProperty("status")));
+		
+		List<DadosValor> valoresPorStatus =  criteria.setResultTransformer(Transformers.aliasToBean(DadosValor.class)).list();
+		for (DadosValor dataValor : valoresPorStatus) {
+			resultado.put(dataValor.getStatus(), dataValor.getValor());
+		}
+		return resultado;
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Ticket> ticketsPorCliente(Date dataInicio, Date dataFinal) {
@@ -134,18 +144,18 @@ public class Tickets implements Serializable {
 		return manager.find(Ticket.class, id);
 	}
 
-	@SuppressWarnings({ "unchecked"})
+	@SuppressWarnings({ "unchecked" })
 	public Map<Date, Long> ticketsPorMes(int numeroDias) {
 		Session session = manager.unwrap(Session.class);
-		
+
 		numeroDias -= 1;
-		
+
 		Calendar dataInicial = Calendar.getInstance();
 		dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
 		dataInicial.add(Calendar.DAY_OF_MONTH, numeroDias * -1);
-		
+
 		Map<Date, Long> resultado = criarMapaVazio(numeroDias, dataInicial);
-			
+
 		Criteria criteria = session.createCriteria(TicketGTS.class);
 
 		criteria.setProjection(Projections.projectionList()
@@ -157,21 +167,36 @@ public class Tickets implements Serializable {
 		List<DataValor> valoresPorData = criteria.setResultTransformer(Transformers.aliasToBean(DataValor.class))
 				.list();
 
-		for (DataValor dataValor: valoresPorData){
+		for (DataValor dataValor : valoresPorData) {
 			resultado.put(dataValor.getData(), dataValor.getQuantidade());
 		}
 		return resultado;
 	}
 
+	private Map<Integer, Long> criarMapaVazio(int numeroDias) {
+		Calendar dataInicial = Calendar.getInstance();
+		dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
+		dataInicial.add(Calendar.DAY_OF_MONTH, numeroDias * -1);
+
+		dataInicial = (Calendar) dataInicial.clone();
+		Map<Integer, Long> mapaInicial = new TreeMap<>();
+
+		for (int i = 0; i <= numeroDias; i++) {
+			mapaInicial.put(Integer.MIN_VALUE, Long.valueOf(0));
+			dataInicial.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		return mapaInicial;
+	}
+
 	private Map<Date, Long> criarMapaVazio(int numeroDias, Calendar dataInicial) {
 		dataInicial = (Calendar) dataInicial.clone();
 		Map<Date, Long> mapaInicial = new TreeMap<>();
-		
+
 		for (int i = 0; i <= numeroDias; i++) {
-			mapaInicial.put(dataInicial.getTime(), Long.MIN_VALUE);
+			mapaInicial.put(dataInicial.getTime(), Long.valueOf(0));
 			dataInicial.add(Calendar.DAY_OF_MONTH, 1);
 		}
-		
+
 		return mapaInicial;
 	}
 

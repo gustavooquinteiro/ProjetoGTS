@@ -9,15 +9,21 @@
 	<f:metadata>
 		<f:viewParam name="dummy" />
 		<f:event listener="#{graficosBean.preRender}" type="preRenderView" />
-	</f:metadata>
+ 	</f:metadata>
 
 	<ui:define name="titulo">Gestão Sistemas - Consulta</ui:define>
 	<ui:define name="corpo">
-		<h:form id="frm">
-			<p:messages autoUpdate="true" closable="true" />
+	
+			
 
-			<p:panelGrid columns="3" style="width: 100%"
+			<p:panelGrid columns="8" style="width: 100%"
 				columnClasses="rotulo, campo">
+				<p:outputLabel value="Tipo de gráfico: "/>
+				<p:selectOneMenu value="#{graficosBean.tipoGrafico}">
+					<f:selectItem itemLabel="Barra" itemValue="bar"/>
+					<f:selectItem itemLabel="Linha" itemValue="line"/>
+					<f:selectItem itemLabel="Pizza" itemValue="pie"/>				
+				</p:selectOneMenu>
 				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
 				<p:selectOneMenu id="pesquisapor"
 					value="#{graficosBean.opcao}" style="width:40%">
@@ -33,19 +39,11 @@
 				<p:calendar value="#{graficosBean.dataInicial}" />
 				Ate:
 				<p:calendar value="#{graficosBean.dataFinal}" />
+				<p:commandButton value="Consultar" action="#{graficosBean.consultarGraficos}"/>
 			</p:panelGrid>
 
-			<p:chart type="line" model="#{graficosBean.linha1}" responsive="true" />
+			<p:chart type="bar" model="#{graficosBean.modeloBarra}"/>
 
-			<p:toolbar style="margin-bottom: 1em;">
-				<p:toolbarGroup>
-					<p:commandButton value="Consultar"
-						action="#{pesquisaClienteBean.pesquisar}" />
-				</p:toolbarGroup>
-			</p:toolbar>
-
-
-		</h:form>
 
 	</ui:define>
 </ui:composition>
