@@ -18,7 +18,7 @@ public class TicketGTS implements Serializable {
 	private Long id;
 	private Date data_abertura;
 
-	private String empresa;
+	private int empresa;
 	private String solicitante_nome;
 	private int solicitante_telefone;
 	private int atendente;
@@ -54,11 +54,11 @@ public class TicketGTS implements Serializable {
 		this.data_abertura = data_abertura;
 	}
 
-	public String getEmpresa() {
+	public int getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(String empresa) {
+	public void setEmpresa(int empresa) {
 		this.empresa = empresa;
 	}
 

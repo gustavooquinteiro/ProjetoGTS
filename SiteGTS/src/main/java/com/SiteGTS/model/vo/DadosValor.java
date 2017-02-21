@@ -6,7 +6,7 @@ public class DadosValor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int status;
-	private Long valor;
+	private Long quantidade;
 
 	public int getStatus() {
 		return status;
@@ -16,12 +16,14 @@ public class DadosValor implements Serializable {
 		this.status = status;
 	}
 
-	public Long getValor() {
-		return valor;
+	public Long getQuantidade() {
+		return quantidade;
 	}
 
-	public void setValor(Long valor) {
-		this.valor = valor;
+	public void setQuantidade(Long quantidade) {
+		this.quantidade = quantidade;
 	}
+
+	
 
 }

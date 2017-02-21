@@ -1,6 +1,7 @@
 package com.SiteGTS.repository;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
@@ -25,10 +25,14 @@ import org.hibernate.type.Type;
 
 import com.SiteGTS.filter.TicketFilter;
 import com.SiteGTS.model.Cliente;
+import com.SiteGTS.model.RotinaGTS;
 import com.SiteGTS.model.Ticket;
 import com.SiteGTS.model.TicketGTS;
+import com.SiteGTS.model.vo.ClienteTickets;
 import com.SiteGTS.model.vo.DadosValor;
 import com.SiteGTS.model.vo.DataValor;
+import com.SiteGTS.model.vo.RotinaTickets;
+import com.SiteGTS.model.vo.TecnicoTickets;
 import com.SiteGTS.util.jpa.Transactional;
 
 public class Tickets implements Serializable {
@@ -84,6 +88,10 @@ public class Tickets implements Serializable {
 		return criteriaTicket.addOrder(Order.desc("id")).list();
 	}
 
+	public Ticket porId(Long id) {
+		return manager.find(Ticket.class, id);
+	}
+
 	@SuppressWarnings("unchecked")
 	private List<Cliente> pesquisaCliente(String op, String pesquisa) {
 		Session session = manager.unwrap(Session.class);
@@ -97,53 +105,77 @@ public class Tickets implements Serializable {
 		Session session = manager.unwrap(Session.class);
 
 		numeroDias -= 1;
-		
-		Map<Integer,Long> resultado = criarMapaVazio(numeroDias);
+
+		Map<Integer, Long> resultado = criarMapaVazio(numeroDias);
+		Calendar dataInicial = Calendar.getInstance();
+
 		Criteria criteria = session.createCriteria(TicketGTS.class);
-		criteria.setProjection(Projections.projectionList()
-				.add(Projections.count("id").as("valor")).add(Projections.groupProperty("status")));
-		
-		List<DadosValor> valoresPorStatus =  criteria.setResultTransformer(Transformers.aliasToBean(DadosValor.class)).list();
+		criteria.setProjection(Projections.projectionList().add(Projections.count("id").as("quantidade"))
+				.add(Projections.groupProperty("status").as("status")))
+				.add(Restrictions.le("data_abertura", dataInicial.getTime()));
+
+		List<DadosValor> valoresPorStatus = criteria.setResultTransformer(Transformers.aliasToBean(DadosValor.class))
+				.list();
+
 		for (DadosValor dataValor : valoresPorStatus) {
-			resultado.put(dataValor.getStatus(), dataValor.getValor());
+			resultado.put(dataValor.getStatus(), dataValor.getQuantidade());
+		}
+
+		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Map<String, BigInteger> ticketsPorCliente(int numeroDias) {
+		Session session = manager.unwrap(Session.class);
+
+		numeroDias -= 1;
+
+		Map<String, BigInteger> resultado = gerarMapaVazio(numeroDias);
+	
+		SQLQuery select = session
+				.createSQLQuery("SELECT COALESCE(e.nome,'NÃO INFORMADO CLIENTE') cliente, COUNT(c.id) quantidade "
+						+ "FROM	bdgestao.tabelatickets c "
+						+ "LEFT JOIN bdgestao.clientetickets e ON (e.id = c.empresa) GROUP BY 1");
+
+		List<ClienteTickets> valoresPorCliente = select
+				.setResultTransformer(Transformers.aliasToBean(ClienteTickets.class)).list();
+
+		for (ClienteTickets dataValor : valoresPorCliente) {
+			resultado.put(dataValor.getCliente(), dataValor.getQuantidade());
 		}
 		return resultado;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Ticket> ticketsPorCliente(Date dataInicio, Date dataFinal) {
+	public Map<String, BigInteger> ticketsPorTecnico(){
 		Session session = manager.unwrap(Session.class);
-		SQLQuery select = session
-				.createSQLQuery("SELECT COALESCE(e.nome,'NÃO INFORMADO CLIENTE')  nome, COUNT(c.id) total "
-						+ "FROM	gestaosist.tickets c " + "LEFT JOIN gestaosist.clientes e ON (e.id = c.empresa) "
-						+ "GROUP BY 1 BETWEEN '" + dataInicio + "' and '" + dataFinal + "';");
-		return select.list();
+		Map<String, BigInteger> resultado = new TreeMap<>();
+		SQLQuery select = session.createSQLQuery("SELECT coalesce(t.name, 'nao informado') nome, COUNT(c.id) quantidade "
+				+ "FROM bdgestao.tabelatickets c "
+				+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico) GROUP BY 1");
+		List<TecnicoTickets> valoresPorTecnico = select.setResultTransformer(Transformers.aliasToBean(TecnicoTickets.class)).list();
+		for (TecnicoTickets dataValor :valoresPorTecnico){
+			resultado.put(dataValor.getNome(), dataValor.getQuantidade()); 
+		}
+		return resultado; 
 	}
-
+	
+	
 	@SuppressWarnings("unchecked")
-	public List<Ticket> ticketsPorTecnico(Date dataInicio, Date dataFinal) {
+	public Map<String, BigInteger> ticketsPorRotina(){
 		Session session = manager.unwrap(Session.class);
-		SQLQuery select = session.createSQLQuery("SELECT coalesce(t.name, 'nao informado') tecnico, COUNT(c.id) "
-				+ "FROM gestaosist.tickets c " + "LEFT JOIN  gestaosist.users t ON (t.id = c.tecnico)"
-				+ "WHERE c.data_abertura BETWEEN '" + dataInicio + "' AND '" + dataFinal + "'; " + "GROUP BY 1;");
-		return select.list();
+		Map<String, BigInteger> resultado = new TreeMap<>();
+		SQLQuery select = session.createSQLQuery("SELECT COALESCE(so.descricao, 'Nao informado') software, "
+				+ "COALESCE(r.descricao, 'Não informado') rotina, COUNT(t.id) quantidade "
+				+ "FROM bdgestao.tabelatickets t "
+				+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id) "
+				+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) GROUP BY 1");
+				List<RotinaTickets> valoresPorRotina = select.setResultTransformer(Transformers.aliasToBean(RotinaTickets.class)).list();
+		for(RotinaTickets dataValor : valoresPorRotina){
+			resultado.put(dataValor.getRotina(), dataValor.getQuantidade()); 
+		}
+		return resultado; 
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<Ticket> ticketsPorRotina(Date dataInicio, Date dataFinal) {
-		Session session = manager.unwrap(Session.class);
-		SQLQuery select = session.createSQLQuery(
-				"SELECT COALESCE(so.descricao, 'Nao informado') software, COALESCE(r.descricao, 'Não informado') rotina, COUNT(t.id) total "
-						+ "FROM gestaosist.tickets t" + "LEFT JOIN gestaosist.softwares so ON (t.software = so.id)"
-						+ "LEFT JOIN gestaosist.rotinas r ON (r.id = t.rotina) " + "WHERE  t.data_abertura BETWEEN '"
-						+ dataInicio + "' and '" + dataFinal + "' " + "GROUP BY rotina;");
-		return select.list();
-	}
-
-	public Ticket porId(Long id) {
-		return manager.find(Ticket.class, id);
-	}
-
 	@SuppressWarnings({ "unchecked" })
 	public Map<Date, Long> ticketsPorMes(int numeroDias) {
 		Session session = manager.unwrap(Session.class);
@@ -182,7 +214,22 @@ public class Tickets implements Serializable {
 		Map<Integer, Long> mapaInicial = new TreeMap<>();
 
 		for (int i = 0; i <= numeroDias; i++) {
-			mapaInicial.put(Integer.MIN_VALUE, Long.valueOf(0));
+			mapaInicial.put(Integer.valueOf(0), Long.valueOf(0));
+			dataInicial.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		return mapaInicial;
+	}
+
+	private Map<String, BigInteger> gerarMapaVazio(int numeroDias) {
+		Calendar dataInicial = Calendar.getInstance();
+		dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
+		dataInicial.add(Calendar.DAY_OF_MONTH, numeroDias * -1);
+
+		dataInicial = (Calendar) dataInicial.clone();
+		Map<String, BigInteger> mapaInicial = new TreeMap<>();
+
+		for (int i = 0; i <= numeroDias; i++) {
+			mapaInicial.put("", BigInteger.ZERO);
 			dataInicial.add(Calendar.DAY_OF_MONTH, 1);
 		}
 		return mapaInicial;
