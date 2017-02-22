@@ -25,7 +25,6 @@ import org.hibernate.type.Type;
 
 import com.SiteGTS.filter.TicketFilter;
 import com.SiteGTS.model.Cliente;
-import com.SiteGTS.model.RotinaGTS;
 import com.SiteGTS.model.Ticket;
 import com.SiteGTS.model.TicketGTS;
 import com.SiteGTS.model.vo.ClienteTickets;
@@ -131,7 +130,7 @@ public class Tickets implements Serializable {
 		numeroDias -= 1;
 
 		Map<String, BigInteger> resultado = gerarMapaVazio(numeroDias);
-	
+
 		SQLQuery select = session
 				.createSQLQuery("SELECT COALESCE(e.nome,'NÃO INFORMADO CLIENTE') cliente, COUNT(c.id) quantidade "
 						+ "FROM	bdgestao.tabelatickets c "
@@ -147,35 +146,38 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, BigInteger> ticketsPorTecnico(){
+	public Map<String, BigInteger> ticketsPorTecnico() {
 		Session session = manager.unwrap(Session.class);
 		Map<String, BigInteger> resultado = new TreeMap<>();
-		SQLQuery select = session.createSQLQuery("SELECT coalesce(t.name, 'nao informado') nome, COUNT(c.id) quantidade "
-				+ "FROM bdgestao.tabelatickets c "
-				+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico) GROUP BY 1");
-		List<TecnicoTickets> valoresPorTecnico = select.setResultTransformer(Transformers.aliasToBean(TecnicoTickets.class)).list();
-		for (TecnicoTickets dataValor :valoresPorTecnico){
-			resultado.put(dataValor.getNome(), dataValor.getQuantidade()); 
+		SQLQuery select = session
+				.createSQLQuery("SELECT coalesce(t.name, 'nao informado') nome, COUNT(c.id) quantidade "
+						+ "FROM bdgestao.tabelatickets c "
+						+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico) GROUP BY 1");
+		List<TecnicoTickets> valoresPorTecnico = select
+				.setResultTransformer(Transformers.aliasToBean(TecnicoTickets.class)).list();
+		for (TecnicoTickets dataValor : valoresPorTecnico) {
+			resultado.put(dataValor.getNome(), dataValor.getQuantidade());
 		}
-		return resultado; 
+		return resultado;
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
-	public Map<String, BigInteger> ticketsPorRotina(){
+	public Map<String, BigInteger> ticketsPorRotina() {
 		Session session = manager.unwrap(Session.class);
 		Map<String, BigInteger> resultado = new TreeMap<>();
-		SQLQuery select = session.createSQLQuery("SELECT COALESCE(so.descricao, 'Nao informado') software, "
-				+ "COALESCE(r.descricao, 'Não informado') rotina, COUNT(t.id) quantidade "
-				+ "FROM bdgestao.tabelatickets t "
-				+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id) "
-				+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) GROUP BY 1");
-				List<RotinaTickets> valoresPorRotina = select.setResultTransformer(Transformers.aliasToBean(RotinaTickets.class)).list();
-		for(RotinaTickets dataValor : valoresPorRotina){
-			resultado.put(dataValor.getRotina(), dataValor.getQuantidade()); 
+		SQLQuery select = session
+				.createSQLQuery("SELECT COALESCE(r.descricao, 'Não informado') rotina, COUNT(t.id) quantidade "
+						+ "FROM bdgestao.tabelatickets t "
+						+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id) "
+						+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) GROUP BY 1");
+		List<RotinaTickets> valoresPorRotina = select
+				.setResultTransformer(Transformers.aliasToBean(RotinaTickets.class)).list();
+		for (RotinaTickets dataValor : valoresPorRotina) {
+			resultado.put(dataValor.getRotina(), dataValor.getQuantidade());
 		}
-		return resultado; 
+		return resultado;
 	}
+
 	@SuppressWarnings({ "unchecked" })
 	public Map<Date, Long> ticketsPorMes(int numeroDias) {
 		Session session = manager.unwrap(Session.class);

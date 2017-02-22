@@ -8,13 +8,58 @@
 
 	<f:metadata>
 		<f:viewParam name="dummy" />
-		<f:event listener="#{graficosBean.preRender}" type="preRenderView" />
+		<!-- <f:event listener="#{graficosBean.preRender}" type="preRenderView" /> -->
 	</f:metadata>
 
 	<ui:define name="titulo">Gestão Sistemas - Consulta</ui:define>
 	<ui:define name="corpo">
+		<h:form>
 
-		<p:chart type="bar" model="#{graficosBean.modeloBarra}" responsive="true"/>
+			<p:panelGrid columns="9" style="width: 100%"
+				columnClasses="rotulo, campo">
+				<p:outputLabel value="Tipo de gráfico: " />
+				<p:selectOneMenu value="#{graficosBean.tipoGrafico}" required="true">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Barra" itemValue="bar" />
+					<f:selectItem itemLabel="Linha" itemValue="line" />
+					<f:selectItem itemLabel="Pizza" itemValue="pie" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
+				<p:selectOneMenu id="pesquisapor" value="#{graficosBean.opcao}"
+					style="width:40%" required="true">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Tickets por status" itemValue="porstatus" />
+					<f:selectItem itemLabel="Tickets por técnico"
+						itemValue="portecnico" />
+					<f:selectItem itemLabel="Tickets por rotinas" itemValue="porrotina" />
+					<f:selectItem itemLabel="Tickets por cliente"
+						itemValue="porcliente" />
+				</p:selectOneMenu>
+			
+				De:
+				<p:calendar value="#{graficosBean.dataInicial}" required="true" />
+				
+				Ate:
+				<p:calendar value="#{graficosBean.dataFinal}" required="true" />
 
+				<p:commandButton value="Consultar"
+					actionListener="#{graficosBean.consultarGraficos}"
+					update="graficos" ajax="false" />
+
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" columnClasses="rotulo, campo"
+				style="width:100%" id="graficos">
+				<p:chart id="modelolinha" type="line"
+					model="#{graficosBean.modeloLinha}" />
+				<p:chart id="modelopizza" type="pie"
+					model="#{graficosBean.modeloPizza}" />
+				<p:chart id="modelobarra" type="bar"
+					model="#{graficosBean.modeloBarra}" responsive="true" />
+
+
+
+			</p:panelGrid>
+		</h:form>
 	</ui:define>
 </ui:composition>
