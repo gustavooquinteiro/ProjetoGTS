@@ -2,8 +2,6 @@ package com.SiteGTS.controller;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -26,8 +24,6 @@ import com.SiteGTS.util.jsf.FacesUtil;
 public class GraficosBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
 
 	@Inject
 	private Tickets tickets;
@@ -101,9 +97,9 @@ public class GraficosBean implements Serializable {
 		this.modeloPizza = new PieChartModel();
 
 		if (opcao.equals("porstatus")) {
-			Map<Integer, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+			Map<String, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
 
-			for (Integer data : resultado.keySet()) {
+			for (String data : resultado.keySet()) {
 				modeloPizza.set(data.toString(), resultado.get(data));
 			}
 
@@ -130,13 +126,15 @@ public class GraficosBean implements Serializable {
 			for (String data : resultado.keySet()) {
 				modeloPizza.set(data, resultado.get(data));
 			}
-			
+
 		}
-		
+
 		modeloPizza.setLegendPosition("e");
 		modeloPizza.setTitle(tipoDePesquisa());
-		modeloPizza.setDiameter(150);
-		modeloPizza.setShowDataLabels(true);			}
+		modeloPizza.setDiameter(1000);
+		modeloPizza.setShowDataLabels(true);
+		modeloPizza.setMouseoverHighlight(true);
+	}
 
 	private void adicionarSerieEmLinha() {
 		this.modeloLinha = new LineChartModel();
@@ -148,8 +146,8 @@ public class GraficosBean implements Serializable {
 		yAxis.setMin(0);
 
 		if (opcao.equals("porstatus")) {
-			Map<Integer, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
-			for (Integer data : resultado.keySet()) {
+			Map<String, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
 			}
 		}
@@ -185,9 +183,9 @@ public class GraficosBean implements Serializable {
 		yAxis.setMin(0);
 
 		if (opcao.equals("porstatus")) {
-			Map<Integer, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+			Map<String, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
 
-			for (Integer data : resultado.keySet()) {
+			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
 			}
 

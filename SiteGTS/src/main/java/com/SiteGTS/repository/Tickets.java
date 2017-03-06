@@ -100,12 +100,12 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<Integer, Long> ticketsPorStatus(int numeroDias) {
+	public Map<String, Long> ticketsPorStatus(int numeroDias) {
 		Session session = manager.unwrap(Session.class);
 
 		numeroDias -= 1;
 
-		Map<Integer, Long> resultado = criarMapaVazio(numeroDias);
+		Map<String, Long> resultado = criarMapaVazio(numeroDias);
 		Calendar dataInicial = Calendar.getInstance();
 
 		Criteria criteria = session.createCriteria(TicketGTS.class);
@@ -207,16 +207,16 @@ public class Tickets implements Serializable {
 		return resultado;
 	}
 
-	private Map<Integer, Long> criarMapaVazio(int numeroDias) {
+	private Map<String, Long> criarMapaVazio(int numeroDias) {
 		Calendar dataInicial = Calendar.getInstance();
 		dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
 		dataInicial.add(Calendar.DAY_OF_MONTH, numeroDias * -1);
 
 		dataInicial = (Calendar) dataInicial.clone();
-		Map<Integer, Long> mapaInicial = new TreeMap<>();
+		Map<String, Long> mapaInicial = new TreeMap<>();
 
 		for (int i = 0; i <= numeroDias; i++) {
-			mapaInicial.put(Integer.valueOf(0), Long.valueOf(0));
+			mapaInicial.put("", Long.valueOf(0));
 			dataInicial.add(Calendar.DAY_OF_MONTH, 1);
 		}
 		return mapaInicial;
