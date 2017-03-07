@@ -39,11 +39,19 @@ public class GraficosBean implements Serializable {
 	private String rotulo;
 	private String tipoGrafico;
 	private int diasEntre;
+	private String saida;
+	private boolean mostrarGraficoBarra;
+	private boolean mostrarGraficoLinha;
+	private boolean mostrarGraficoPizza;
 
 	public GraficosBean() {
 		modeloBarra = new BarChartModel();
 		modeloLinha = new LineChartModel();
 		modeloPizza = new PieChartModel();
+		saida = "/dashboard/PesquisaGrafico.xhtml";
+		mostrarGraficoBarra = false;
+		mostrarGraficoLinha = false;
+		mostrarGraficoPizza = false;
 	}
 
 	public void consultarGraficos() {
@@ -58,14 +66,11 @@ public class GraficosBean implements Serializable {
 
 		if (tipoGrafico.equals("vazio"))
 			FacesUtil.addWarnMessage("Defina um tipo de gráfico para exibição!");
-
-		if (tipoGrafico.equals("bar"))
+		else if (tipoGrafico.equals("bar"))
 			adicionarSerieEmBarra();
-
-		if (tipoGrafico.equals("line"))
+		else if (tipoGrafico.equals("line"))
 			adicionarSerieEmLinha();
-
-		if (tipoGrafico.equals("pie"))
+		else if (tipoGrafico.equals("pie"))
 			adicionarSerieEmPizza();
 	}
 
@@ -134,6 +139,7 @@ public class GraficosBean implements Serializable {
 		modeloPizza.setDiameter(1000);
 		modeloPizza.setShowDataLabels(true);
 		modeloPizza.setMouseoverHighlight(true);
+		mostrarGraficoPizza = true;
 	}
 
 	private void adicionarSerieEmLinha() {
@@ -171,6 +177,8 @@ public class GraficosBean implements Serializable {
 		}
 
 		this.modeloLinha.addSeries(series);
+		mostrarGraficoLinha = true;
+		saida = "/dashboard/GraficoLinha.xhtml";
 	}
 
 	private void adicionarSerieEmBarra() {
@@ -216,6 +224,8 @@ public class GraficosBean implements Serializable {
 		}
 		modeloBarra.setLegendCols(diasEntre);
 		this.modeloBarra.addSeries(series);
+		saida = "/dashboard/GraficoBarra.xhtml";
+		mostrarGraficoBarra = true;
 	}
 
 	public String getOpcao() {
@@ -260,5 +270,25 @@ public class GraficosBean implements Serializable {
 
 	public void setTipoGrafico(String tipoGrafico) {
 		this.tipoGrafico = tipoGrafico;
+	}
+
+	public String getSaida() {
+		return saida;
+	}
+
+	public void setSaida(String saida) {
+		this.saida = saida;
+	}
+
+	public boolean isMostrarGraficoBarra() {
+		return mostrarGraficoBarra;
+	}
+
+	public boolean isMostrarGraficoLinha() {
+		return mostrarGraficoLinha;
+	}
+
+	public boolean isMostrarGraficoPizza() {
+		return mostrarGraficoPizza;
 	}
 }

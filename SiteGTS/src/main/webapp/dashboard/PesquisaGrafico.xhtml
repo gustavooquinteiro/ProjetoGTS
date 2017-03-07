@@ -6,11 +6,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:o="http://omnifaces.org/ui">
 
-	<f:metadata>
-		<f:viewParam name="dummy" />
-		<!-- <f:event listener="#{graficosBean.preRender}" type="preRenderView" /> -->
-	</f:metadata>
-
 	<ui:define name="titulo">Gestão Sistemas - Consulta</ui:define>
 	<ui:define name="corpo">
 		<h:form>
@@ -45,16 +40,15 @@
 				<p:calendar value="#{graficosBean.dataFinal}" required="true" />
 
 				<p:commandButton value="Consultar"
-					actionListener="#{graficosBean.consultarGraficos}"
-					update="@form" ajax="false"/>
+					actionListener="#{graficosBean.consultarGraficos}" update="@form"
+					ajax="false" />
 			</p:panelGrid>
-			<p:chart id="pie" type="pie" model="#{graficosBean.modeloPizza}" style="height:100em" />
-
 			<p:chart id="bar" type="bar" model="#{graficosBean.modeloBarra}"
-				responsive="true" />
-
+				responsive="true" rendered="#{graficosBean.mostrarGraficoBarra}" />
+			<p:chart id="pie" type="pie" model="#{graficosBean.modeloPizza}"
+				style="height:100em" rendered="#{graficosBean.mostrarGraficoPizza}" />
 			<p:chart id="line" type="line" model="#{graficosBean.modeloLinha}"
-				responsive="true" />
+				responsive="true" rendered="#{graficosBean.mostrarGraficoLinha}" />
 		</h:form>
 	</ui:define>
 </ui:composition>
