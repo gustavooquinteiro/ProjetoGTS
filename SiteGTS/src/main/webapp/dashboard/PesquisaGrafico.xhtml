@@ -13,14 +13,6 @@
 			<p:panelGrid columns="9" style="width: 100%"
 				columnClasses="rotulo, campo">
 
-				<p:outputLabel value="Tipo de gráfico: " />
-				<p:selectOneMenu value="#{graficosBean.tipoGrafico}" required="true">
-					<f:selectItem itemLabel=" " itemValue="vazio" />
-					<f:selectItem itemLabel="Barra" itemValue="bar" />
-					<f:selectItem itemLabel="Linha" itemValue="line" />
-					<f:selectItem itemLabel="Pizza" itemValue="pie" />
-				</p:selectOneMenu>
-
 				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
 				<p:selectOneMenu id="pesquisapor" value="#{graficosBean.opcao}"
 					style="width:40%" required="true">
@@ -39,14 +31,26 @@
 				Ate:
 				<p:calendar value="#{graficosBean.dataFinal}" required="true" />
 
-				<p:commandButton value="Consultar"
+
+				<p:outputLabel value="Tipo de gráfico: " />
+				<p:selectOneMenu value="#{graficosBean.tipoGrafico}" required="true">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Barra" itemValue="bar" />
+					<f:selectItem itemLabel="Linha" itemValue="line" />
+					<f:selectItem itemLabel="Pizza" itemValue="pie" />
+					<!-- <p:ajax listener="#{graficosBean.consultarGraficos}" update="@form"/> -->
+				</p:selectOneMenu>
+
+			<p:commandButton value="Consultar"
 					actionListener="#{graficosBean.consultarGraficos}" update="@form"
-					ajax="false" />
+					ajax="false" /> 
 			</p:panelGrid>
 			<p:chart id="bar" type="bar" model="#{graficosBean.modeloBarra}"
 				responsive="true" rendered="#{graficosBean.mostrarGraficoBarra}" />
+
 			<p:chart id="pie" type="pie" model="#{graficosBean.modeloPizza}"
 				style="height:100em" rendered="#{graficosBean.mostrarGraficoPizza}" />
+
 			<p:chart id="line" type="line" model="#{graficosBean.modeloLinha}"
 				responsive="true" rendered="#{graficosBean.mostrarGraficoLinha}" />
 		</h:form>

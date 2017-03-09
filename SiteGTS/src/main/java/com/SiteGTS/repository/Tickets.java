@@ -132,7 +132,7 @@ public class Tickets implements Serializable {
 		Map<String, BigInteger> resultado = gerarMapaVazio(numeroDias);
 
 		SQLQuery select = session
-				.createSQLQuery("SELECT COALESCE(e.nome,'NÃO INFORMADO CLIENTE') cliente, COUNT(c.id) quantidade "
+				.createSQLQuery("SELECT COALESCE(e.nome,'Cliente não informado') cliente, COUNT(c.id) quantidade "
 						+ "FROM	bdgestao.tabelatickets c "
 						+ "LEFT JOIN bdgestao.clientetickets e ON (e.id = c.empresa) GROUP BY 1");
 
@@ -150,7 +150,7 @@ public class Tickets implements Serializable {
 		Session session = manager.unwrap(Session.class);
 		Map<String, BigInteger> resultado = new TreeMap<>();
 		SQLQuery select = session
-				.createSQLQuery("SELECT coalesce(t.name, 'nao informado') nome, COUNT(c.id) quantidade "
+				.createSQLQuery("SELECT coalesce(t.name, 'Técnico não informado') nome, COUNT(c.id) quantidade "
 						+ "FROM bdgestao.tabelatickets c "
 						+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico) GROUP BY 1");
 		List<TecnicoTickets> valoresPorTecnico = select
@@ -166,7 +166,7 @@ public class Tickets implements Serializable {
 		Session session = manager.unwrap(Session.class);
 		Map<String, BigInteger> resultado = new TreeMap<>();
 		SQLQuery select = session
-				.createSQLQuery("SELECT COALESCE(r.descricao, 'Não informado') rotina, COUNT(t.id) quantidade "
+				.createSQLQuery("SELECT COALESCE(r.descricao, 'Rotina não informado') rotina, COUNT(t.id) quantidade "
 						+ "FROM bdgestao.tabelatickets t "
 						+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id) "
 						+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) GROUP BY 1");

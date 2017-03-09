@@ -94,10 +94,6 @@ public class GraficosBean implements Serializable {
 		return rotulo;
 	}
 
-	public void preRender() {
-
-	}
-
 	private void adicionarSerieEmPizza() {
 		this.modeloPizza = new PieChartModel();
 
@@ -136,7 +132,7 @@ public class GraficosBean implements Serializable {
 
 		modeloPizza.setLegendPosition("e");
 		modeloPizza.setTitle(tipoDePesquisa());
-		modeloPizza.setDiameter(1000);
+		modeloPizza.setDiameter(850);
 		modeloPizza.setShowDataLabels(true);
 		modeloPizza.setMouseoverHighlight(true);
 		mostrarGraficoPizza = true;
