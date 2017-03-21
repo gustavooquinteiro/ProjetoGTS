@@ -10,7 +10,7 @@
 	<ui:define name="corpo">
 		<h:form>
 
-			<p:panelGrid columns="9" style="width: 100%"
+			<p:panelGrid columns="10" style="width: 100%"
 				columnClasses="rotulo, campo">
 
 				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
@@ -31,19 +31,18 @@
 				Ate:
 				<p:calendar value="#{graficosBean.dataFinal}" required="true" />
 
-
 				<p:outputLabel value="Tipo de gráfico: " />
 				<p:selectOneMenu value="#{graficosBean.tipoGrafico}" required="true">
 					<f:selectItem itemLabel=" " itemValue="vazio" />
 					<f:selectItem itemLabel="Barra" itemValue="bar" />
 					<f:selectItem itemLabel="Linha" itemValue="line" />
 					<f:selectItem itemLabel="Pizza" itemValue="pie" />
-					<!-- <p:ajax listener="#{graficosBean.consultarGraficos}" update="@form"/> -->
 				</p:selectOneMenu>
 
-			<p:commandButton value="Consultar"
+				<p:commandButton value="Consultar"
 					actionListener="#{graficosBean.consultarGraficos}" update="@form"
-					ajax="false" /> 
+					ajax="false" />
+				<p:commandButton value="Emitir Relatório" action="#{relatorioBean.emitir}" ajax="false"/>
 			</p:panelGrid>
 			<p:chart id="bar" type="bar" model="#{graficosBean.modeloBarra}"
 				responsive="true" rendered="#{graficosBean.mostrarGraficoBarra}" />

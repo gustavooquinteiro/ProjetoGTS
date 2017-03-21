@@ -2,6 +2,9 @@ package com.SiteGTS.repository;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,19 +20,14 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.StandardBasicTypes;
-import org.hibernate.type.Type;
 
 import com.SiteGTS.filter.TicketFilter;
 import com.SiteGTS.model.Cliente;
 import com.SiteGTS.model.Ticket;
-import com.SiteGTS.model.TicketGTS;
 import com.SiteGTS.model.vo.ClienteTickets;
 import com.SiteGTS.model.vo.DadosValor;
-import com.SiteGTS.model.vo.DataValor;
 import com.SiteGTS.model.vo.RotinaTickets;
 import com.SiteGTS.model.vo.TecnicoTickets;
 import com.SiteGTS.util.jpa.Transactional;
@@ -100,20 +98,20 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, Long> ticketsPorStatus(int numeroDias) {
+	public Map<String, Long> ticketsPorStatus(Date dataInicial, Date dataFinal) {
 		Session session = manager.unwrap(Session.class);
-
-		numeroDias -= 1;
-
+		int numeroDias = 30;
+		numeroDias = verificaQuantidadeDias(dataInicial, dataFinal, numeroDias);
 		Map<String, Long> resultado = criarMapaVazio(numeroDias);
-		Calendar dataInicial = Calendar.getInstance();
 
-		Criteria criteria = session.createCriteria(TicketGTS.class);
-		criteria.setProjection(Projections.projectionList().add(Projections.count("id").as("quantidade"))
-				.add(Projections.groupProperty("status").as("status")))
-				.add(Restrictions.le("data_abertura", dataInicial.getTime()));
+		String dataInicio = modificarFormatoData(dataInicial);
+		String dataFim = modificarFormatoData(dataFinal);
+		SQLQuery select = session.createSQLQuery("SELECT tabelatickets.status, count(tabelatickets.id)"
+				+ "FROM bdgestao.tabelatickets " + "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
+				+ "BETWEEN '"+ dataInicio +"' and '" + dataFim + "'" 
+				+ "group by 1");
 
-		List<DadosValor> valoresPorStatus = criteria.setResultTransformer(Transformers.aliasToBean(DadosValor.class))
+		List<DadosValor> valoresPorStatus = select.setResultTransformer(Transformers.aliasToBean(DadosValor.class))
 				.list();
 
 		for (DadosValor dataValor : valoresPorStatus) {
@@ -124,16 +122,20 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, BigInteger> ticketsPorCliente(int numeroDias) {
+	public Map<String, BigInteger> ticketsPorCliente(Date dataInicial, Date dataFinal) {
 		Session session = manager.unwrap(Session.class);
-
-		numeroDias -= 1;
+		int numeroDias = 30;
+		numeroDias = verificaQuantidadeDias(dataInicial, dataFinal, numeroDias);
 
 		Map<String, BigInteger> resultado = gerarMapaVazio(numeroDias);
 
+		String dataInicio = modificarFormatoData(dataInicial);
+		String dataFim = modificarFormatoData(dataFinal);
+
 		SQLQuery select = session
 				.createSQLQuery("SELECT COALESCE(e.nome,'Cliente não informado') cliente, COUNT(c.id) quantidade "
-						+ "FROM	bdgestao.tabelatickets c "
+						+ "FROM	bdgestao.tabelatickets c " + "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
+								+ "BETWEEN str_to_date("+ dataInicio +", '%Y-%m-%d') and str_to_date(" + dataFim + ", '%Y-%m-%d') "
 						+ "LEFT JOIN bdgestao.clientetickets e ON (e.id = c.empresa) GROUP BY 1");
 
 		List<ClienteTickets> valoresPorCliente = select
@@ -146,12 +148,20 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, BigInteger> ticketsPorTecnico() {
+	public Map<String, BigInteger> ticketsPorTecnico(Date dataInicial, Date dataFinal) {
 		Session session = manager.unwrap(Session.class);
-		Map<String, BigInteger> resultado = new TreeMap<>();
+		int numeroDias = 30;
+		numeroDias = verificaQuantidadeDias(dataInicial, dataFinal, numeroDias);
+
+		Map<String, BigInteger> resultado = gerarMapaVazio(numeroDias);
+
+		String dataInicio = modificarFormatoData(dataInicial);
+		String dataFim = modificarFormatoData(dataFinal);
+
 		SQLQuery select = session
 				.createSQLQuery("SELECT coalesce(t.name, 'Técnico não informado') nome, COUNT(c.id) quantidade "
-						+ "FROM bdgestao.tabelatickets c "
+						+ "FROM bdgestao.tabelatickets c " + "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
+						+ "BETWEEN str_to_date("+ dataInicio +", '%Y-%m-%d') and str_to_date(" + dataFim + ", '%Y-%m-%d') "
 						+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico) GROUP BY 1");
 		List<TecnicoTickets> valoresPorTecnico = select
 				.setResultTransformer(Transformers.aliasToBean(TecnicoTickets.class)).list();
@@ -162,13 +172,18 @@ public class Tickets implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, BigInteger> ticketsPorRotina() {
+	public Map<String, BigInteger> ticketsPorRotina(Date dataInicial, Date dataFinal) {
 		Session session = manager.unwrap(Session.class);
-		Map<String, BigInteger> resultado = new TreeMap<>();
+		int numeroDias = 30;
+		numeroDias = verificaQuantidadeDias(dataInicial, dataFinal, numeroDias);
+		Map<String, BigInteger> resultado = gerarMapaVazio(numeroDias);
+		String dataInicio = modificarFormatoData(dataInicial);
+		String dataFim = modificarFormatoData(dataFinal);
 		SQLQuery select = session
 				.createSQLQuery("SELECT COALESCE(r.descricao, 'Rotina não informado') rotina, COUNT(t.id) quantidade "
-						+ "FROM bdgestao.tabelatickets t "
-						+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id) "
+						+ "FROM bdgestao.tabelatickets t WHERE str_to_date(data_abertura, '%Y-%m-%d') BETWEEN '"
+						+ dataInicial + "' and '" + dataFinal + "' "
+						+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id)"
 						+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) GROUP BY 1");
 		List<RotinaTickets> valoresPorRotina = select
 				.setResultTransformer(Transformers.aliasToBean(RotinaTickets.class)).list();
@@ -178,34 +193,36 @@ public class Tickets implements Serializable {
 		return resultado;
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	public Map<Date, Long> ticketsPorMes(int numeroDias) {
-		Session session = manager.unwrap(Session.class);
-
-		numeroDias -= 1;
-
-		Calendar dataInicial = Calendar.getInstance();
-		dataInicial = DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
-		dataInicial.add(Calendar.DAY_OF_MONTH, numeroDias * -1);
-
-		Map<Date, Long> resultado = criarMapaVazio(numeroDias, dataInicial);
-
-		Criteria criteria = session.createCriteria(TicketGTS.class);
-
-		criteria.setProjection(Projections.projectionList()
-				.add(Projections.sqlGroupProjection("date(data_abertura) as data", "date(data_abertura)",
-						new String[] { "data" }, new Type[] { StandardBasicTypes.DATE }))
-				.add(Projections.count("id").as("quantidade")))
-				.add(Restrictions.ge("data_abertura", dataInicial.getTime()));
-
-		List<DataValor> valoresPorData = criteria.setResultTransformer(Transformers.aliasToBean(DataValor.class))
-				.list();
-
-		for (DataValor dataValor : valoresPorData) {
-			resultado.put(dataValor.getData(), dataValor.getQuantidade());
-		}
-		return resultado;
-	}
+	/*
+	 * @SuppressWarnings({ "unchecked" }) public Map<Calendar, Long>
+	 * ticketsPorMes(int numeroDias) { Session session =
+	 * manager.unwrap(Session.class);
+	 * 
+	 * numeroDias -= 1;
+	 * 
+	 * Calendar dataInicial = Calendar.getInstance(); dataInicial =
+	 * DateUtils.truncate(dataInicial, Calendar.DAY_OF_MONTH);
+	 * dataInicial.add(Calendar.DAY_OF_MONTH, numeroDias * -1);
+	 * 
+	 * Map<Calendar, Long> resultado = criarMapaVazio(numeroDias, dataInicial);
+	 * 
+	 * Criteria criteria = session.createCriteria(TicketGTS.class);
+	 * 
+	 * criteria.setProjection(Projections.projectionList()
+	 * .add(Projections.sqlGroupProjection("date(data_abertura) as data",
+	 * "date(data_abertura)", new String[] { "data" }, new Type[] {
+	 * StandardBasicTypes.DATE }))
+	 * .add(Projections.count("id").as("quantidade")))
+	 * .add(Restrictions.ge("data_abertura", dataInicial.getTime()));
+	 * 
+	 * List<DataValor> valoresPorData =
+	 * criteria.setResultTransformer(Transformers.aliasToBean(DataValor.class))
+	 * .list();
+	 * 
+	 * for (DataValor dataValor : valoresPorData) {
+	 * resultado.put(dataValor.getData(), dataValor.getQuantidade()); } return
+	 * resultado; }
+	 */
 
 	private Map<String, Long> criarMapaVazio(int numeroDias) {
 		Calendar dataInicial = Calendar.getInstance();
@@ -237,6 +254,7 @@ public class Tickets implements Serializable {
 		return mapaInicial;
 	}
 
+	@SuppressWarnings("unused")
 	private Map<Date, Long> criarMapaVazio(int numeroDias, Calendar dataInicial) {
 		dataInicial = (Calendar) dataInicial.clone();
 		Map<Date, Long> mapaInicial = new TreeMap<>();
@@ -249,4 +267,22 @@ public class Tickets implements Serializable {
 		return mapaInicial;
 	}
 
+	private String modificarFormatoData(Date data) {
+		// TODO Pensar em lógica de conversão de data no estilo pt-BR para data
+		// en-US
+		DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		String dataFormatada = formato.format(data); 
+		return dataFormatada;
+	}
+
+	private int verificaQuantidadeDias(Date dataInicial, Date dataFinal, int numeroDias) {
+		if (dataInicial != null && dataFinal != null) {
+			numeroDias = dataFinal.compareTo(dataInicial);
+			if (numeroDias < 0) {
+				numeroDias *= -1;
+			}
+			numeroDias -= 1;
+		}
+		return numeroDias;
+	}
 }

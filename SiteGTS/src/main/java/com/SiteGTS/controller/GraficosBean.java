@@ -98,7 +98,7 @@ public class GraficosBean implements Serializable {
 		this.modeloPizza = new PieChartModel();
 
 		if (opcao.equals("porstatus")) {
-			Map<String, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+			Map<String, Long> resultado = this.tickets.ticketsPorStatus(getDataInicial(), getDataFinal());
 
 			for (String data : resultado.keySet()) {
 				modeloPizza.set(data.toString(), resultado.get(data));
@@ -106,7 +106,7 @@ public class GraficosBean implements Serializable {
 
 		}
 		if (opcao.equals("portecnico")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorTecnico();
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorTecnico(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				modeloPizza.set(data, resultado.get(data));
@@ -114,7 +114,7 @@ public class GraficosBean implements Serializable {
 
 		}
 		if (opcao.equals("porrotina")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorRotina();
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorRotina(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				modeloPizza.set(data, resultado.get(data));
@@ -122,7 +122,7 @@ public class GraficosBean implements Serializable {
 
 		}
 		if (opcao.equals("porcliente")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorCliente(diasEntre);
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorCliente(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				modeloPizza.set(data, resultado.get(data));
@@ -148,25 +148,25 @@ public class GraficosBean implements Serializable {
 		yAxis.setMin(0);
 
 		if (opcao.equals("porstatus")) {
-			Map<String, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+			Map<String, Long> resultado = this.tickets.ticketsPorStatus(dataInicial, dataFinal);
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
 			}
 		}
 		if (opcao.equals("portecnico")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorTecnico();
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorTecnico(dataInicial, dataFinal);
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
 			}
 		}
 		if (opcao.equals("porrotina")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorRotina();
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorRotina(dataInicial, dataFinal);
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
 			}
 		}
 		if (opcao.equals("porcliente")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorCliente(diasEntre);
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorCliente(dataInicial, dataFinal);
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
 			}
@@ -187,7 +187,7 @@ public class GraficosBean implements Serializable {
 		yAxis.setMin(0);
 
 		if (opcao.equals("porstatus")) {
-			Map<String, Long> resultado = this.tickets.ticketsPorStatus(diasEntre);
+			Map<String, Long> resultado = this.tickets.ticketsPorStatus(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
@@ -195,7 +195,7 @@ public class GraficosBean implements Serializable {
 
 		}
 		if (opcao.equals("portecnico")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorTecnico();
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorTecnico(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
@@ -203,7 +203,7 @@ public class GraficosBean implements Serializable {
 
 		}
 		if (opcao.equals("porrotina")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorRotina();
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorRotina(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
@@ -211,7 +211,7 @@ public class GraficosBean implements Serializable {
 
 		}
 		if (opcao.equals("porcliente")) {
-			Map<String, BigInteger> resultado = this.tickets.ticketsPorCliente(diasEntre);
+			Map<String, BigInteger> resultado = this.tickets.ticketsPorCliente(dataInicial, dataFinal);
 
 			for (String data : resultado.keySet()) {
 				series.set(data, resultado.get(data));
