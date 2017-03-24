@@ -3,7 +3,6 @@ package com.SiteGTS.repository;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -106,16 +105,15 @@ public class Tickets implements Serializable {
 
 		String dataInicio = modificarFormatoData(dataInicial);
 		String dataFim = modificarFormatoData(dataFinal);
-		SQLQuery select = session.createSQLQuery("SELECT tabelatickets.status, count(tabelatickets.id)"
-				+ "FROM bdgestao.tabelatickets " + "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
-				+ "BETWEEN '"+ dataInicio +"' and '" + dataFim + "'" 
-				+ "group by 1");
+		SQLQuery select = session.createSQLQuery("SELECT tabelatickets.status as status, count(tabelatickets.id) as quantidade"
+				+ " FROM bdgestao.tabelatickets " 
+				+ " WHERE str_to_date(data_abertura, '%Y-%m-%d') BETWEEN '"+ dataInicio +"' and '" + dataFim + "'"
+				+ " group by 1");
 
-		List<DadosValor> valoresPorStatus = select.setResultTransformer(Transformers.aliasToBean(DadosValor.class))
-				.list();
+		List<DadosValor> valoresPorStatus = select.setResultTransformer(Transformers.aliasToBean(DadosValor.class)).list();
 
 		for (DadosValor dataValor : valoresPorStatus) {
-			resultado.put(dataValor.getStatus(), dataValor.getQuantidade());
+			resultado.put(dataValor.getStatus(), dataValor.getQuantidade().longValueExact());
 		}
 
 		return resultado;
@@ -134,9 +132,11 @@ public class Tickets implements Serializable {
 
 		SQLQuery select = session
 				.createSQLQuery("SELECT COALESCE(e.nome,'Cliente não informado') cliente, COUNT(c.id) quantidade "
-						+ "FROM	bdgestao.tabelatickets c " + "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
-								+ "BETWEEN str_to_date("+ dataInicio +", '%Y-%m-%d') and str_to_date(" + dataFim + ", '%Y-%m-%d') "
-						+ "LEFT JOIN bdgestao.clientetickets e ON (e.id = c.empresa) GROUP BY 1");
+						+ " FROM bdgestao.tabelatickets c"
+						+ " LEFT JOIN bdgestao.clientetickets e ON (e.id = c.empresa)" 
+						+ " WHERE str_to_date(data_abertura, '%Y-%m-%d')"
+						+ " BETWEEN '"+ dataInicio +"' and '" + dataFim + "'"
+						+ " GROUP BY 1");
 
 		List<ClienteTickets> valoresPorCliente = select
 				.setResultTransformer(Transformers.aliasToBean(ClienteTickets.class)).list();
@@ -160,9 +160,10 @@ public class Tickets implements Serializable {
 
 		SQLQuery select = session
 				.createSQLQuery("SELECT coalesce(t.name, 'Técnico não informado') nome, COUNT(c.id) quantidade "
-						+ "FROM bdgestao.tabelatickets c " + "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
-						+ "BETWEEN str_to_date("+ dataInicio +", '%Y-%m-%d') and str_to_date(" + dataFim + ", '%Y-%m-%d') "
-						+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico) GROUP BY 1");
+						+ "FROM bdgestao.tabelatickets c "
+						+ "LEFT JOIN bdgestao.tabelausuario t ON (t.id = c.tecnico)"
+						+ "WHERE str_to_date(data_abertura, '%Y-%m-%d') "
+						+ "BETWEEN '"+ dataInicio +"' and '" + dataFim + "'group by 1 ;");
 		List<TecnicoTickets> valoresPorTecnico = select
 				.setResultTransformer(Transformers.aliasToBean(TecnicoTickets.class)).list();
 		for (TecnicoTickets dataValor : valoresPorTecnico) {
@@ -181,10 +182,12 @@ public class Tickets implements Serializable {
 		String dataFim = modificarFormatoData(dataFinal);
 		SQLQuery select = session
 				.createSQLQuery("SELECT COALESCE(r.descricao, 'Rotina não informado') rotina, COUNT(t.id) quantidade "
-						+ "FROM bdgestao.tabelatickets t WHERE str_to_date(data_abertura, '%Y-%m-%d') BETWEEN '"
-						+ dataInicial + "' and '" + dataFinal + "' "
-						+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id)"
-						+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) GROUP BY 1");
+						+ "FROM bdgestao.tabelatickets t  "
+						+ "LEFT JOIN bdgestao.tabelasoftware so ON (t.software = so.id) "
+						+ "LEFT JOIN bdgestao.tabelarotina r ON (r.id = t.rotina) "
+						+ "WHERE str_to_date(data_abertura, '%Y-%m-%d') BETWEEN '"
+						+ dataInicio + "' and '" + dataFim + "' "
+								+ "GROUP BY 1");
 		List<RotinaTickets> valoresPorRotina = select
 				.setResultTransformer(Transformers.aliasToBean(RotinaTickets.class)).list();
 		for (RotinaTickets dataValor : valoresPorRotina) {
@@ -267,9 +270,7 @@ public class Tickets implements Serializable {
 		return mapaInicial;
 	}
 
-	private String modificarFormatoData(Date data) {
-		// TODO Pensar em lógica de conversão de data no estilo pt-BR para data
-		// en-US
+	public String modificarFormatoData(Date data) {
 		DateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		String dataFormatada = formato.format(data); 
 		return dataFormatada;

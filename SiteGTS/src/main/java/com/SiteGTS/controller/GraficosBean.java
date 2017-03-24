@@ -2,13 +2,19 @@ package com.SiteGTS.controller;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -18,13 +24,24 @@ import org.primefaces.model.chart.PieChartModel;
 
 import com.SiteGTS.repository.Tickets;
 import com.SiteGTS.util.jsf.FacesUtil;
+import com.SiteGTS.util.report.ExecutorRelatorio;
 
 @Named
 @RequestScoped
 public class GraficosBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	@Inject
+	private FacesContext facesContext;
 
+	@Inject
+	private HttpServletResponse response;
+
+	@Inject
+	private EntityManager manager;
+
+	private Tickets novo = new Tickets();
+	private ExecutorRelatorio executor;
 	@Inject
 	private Tickets tickets;
 
@@ -224,6 +241,54 @@ public class GraficosBean implements Serializable {
 		mostrarGraficoBarra = true;
 	}
 
+	public void emitir() {
+		
+		Map<String, Object> parametros = new HashMap<>();
+		
+		 String dataInicio = novo.modificarFormatoData(this.dataInicial);
+		 String dataFim = novo.modificarFormatoData(this.dataFinal); 
+		SimpleDateFormat formatar = new SimpleDateFormat("yyyy-MM-dd");
+		formatar.setLenient(false);
+		try{
+		dataInicial = formatar.parse(dataInicio);
+		dataFinal = formatar.parse(dataFim);
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		parametros.put("dataInicio", dataInicial);
+		
+		parametros.put("dataFim", dataFinal); 
+		
+		if (getOpcao().equals("porstatus"))
+			executor = new ExecutorRelatorio("/relatorios/relatorios.jasper", 
+					this.response, parametros);
+			
+		
+		if(getOpcao().equals("portecnico"))
+			executor = new ExecutorRelatorio("/relatorios/relatorioTicketsPorTecnico.jasper", 
+					this.response, parametros);
+			 
+		if (getOpcao().equals("porrotina"))
+			executor = new ExecutorRelatorio("/relatorios/relatorioTicketsPorRotina.jasper", 
+					this.response, parametros);
+			
+		
+		if (getOpcao().equals("porcliente"))
+			executor = new ExecutorRelatorio("/relatorios/relatorioTicketCliente.jasper", 
+					this.response, parametros);
+			
+		
+		
+		Session session = manager.unwrap(Session.class);
+		session.doWork(executor);
+
+		if (executor.isRelatorioGerado()) {
+			facesContext.responseComplete();
+		} else {
+			FacesUtil.addErrorMessage("A execução do relatório não retornou dados.");
+		}
+	}
+		
 	public String getOpcao() {
 		return opcao;
 	}

@@ -42,7 +42,7 @@
 				<p:commandButton value="Consultar"
 					actionListener="#{graficosBean.consultarGraficos}" update="@form"
 					ajax="false" />
-				<p:commandButton value="Emitir Relatório" action="#{relatorioBean.emitir}" ajax="false"/>
+				<p:commandButton value="Emitir Relatório" action="#{graficosBean.emitir}" ajax="false"/>
 			</p:panelGrid>
 			<p:chart id="bar" type="bar" model="#{graficosBean.modeloBarra}"
 				responsive="true" rendered="#{graficosBean.mostrarGraficoBarra}" />

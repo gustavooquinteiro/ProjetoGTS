@@ -1,12 +1,13 @@
 package com.SiteGTS.model.vo;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 public class DadosValor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String status;
-	private Long quantidade;
+	private BigInteger quantidade;
 
 	public String getStatus() {
 		return status;
@@ -21,11 +22,11 @@ public class DadosValor implements Serializable {
 			this.status = "Fechado";
 	}
 
-	public Long getQuantidade() {
+	public BigInteger getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(Long quantidade) {
+	public void setQuantidade(BigInteger quantidade) {
 		this.quantidade = quantidade;
 	}
 
