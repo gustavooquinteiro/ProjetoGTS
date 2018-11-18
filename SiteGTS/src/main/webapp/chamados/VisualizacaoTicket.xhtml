@@ -1,0 +1,138 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+	<ui:define name="titulo">Gestão Sistemas</ui:define>
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="ticketview" value="#{cadastroTicketBean.ticket}" />
+		</f:metadata>
+
+		<h1>Tickets</h1>
+		<h:form id="cadastroticket">
+			<fieldset class="fieldset">
+				<p:messages autoUpdate="true" closable="true" />
+				<div style="width: 400px;">
+
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="Data de abertura do chamado" />
+						<p:inputText value="#{cadastroTicketBean.ticket.dataAbertura}"
+							readonly="true" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Data de fechamento do chamado" />
+						<p:inputText value="#{cadastroTicketBean.ticket.dataFechamento}"
+							readonly="true" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="formato-linha">
+						<p:outputLabel value="Empresa" />
+						<p:inputText readonly="true"
+							value="#{cadastroTicketBean.ticket.cliente.razaosocial}"
+							style="display:block; width:100%" />
+					</div>
+					<div class="float-left">
+						<p:outputLabel value="Solicitante: " for="solicitante" />
+						<p:inputText id="solicitante"
+							value="#{cadastroTicketBean.ticket.solicitante}" readonly="true" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Telefone" for="tel" />
+						<p:inputText id="tel"
+							value="#{cadastroTicketBean.ticket.cliente.fone1}"
+							readonly="true" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="Atendente" for="atendente" />
+						<p:inputText id="atendente"
+							value="#{cadastroTicketBean.ticket.atendente}" readonly="true" />
+					</div>
+
+					<div class="float-right formato-coluna">
+						<p:outputLabel value="Técnico" for="tecnico" />
+						<p:inputText id="tecnico"
+							value="#{cadastroTicketBean.ticket.tecnico}" readonly="true" />
+					</div>
+
+					<div class="clear" />
+
+					<p:outputLabel value="Descrição do problema: " for="problema" />
+					<p:inputTextarea id="problema"
+						value="#{cadastroTicketBean.ticket.problema}"
+						style="display: block; margin-bottom: 15px; width: 100%"
+						readonly="true" />
+
+					<p:outputLabel value="Descrição da solução: " for="solucao" />
+					<p:inputTextarea id="solucao"
+						value="#{cadastroTicketBean.ticket.solucao}"
+						style="display: block; margin-bottom: 15px; width: 100%"
+						readonly="true" />
+
+					<p:outputLabel value="Software: " for="software" />
+					<p:inputText id="software"
+						value="#{cadastroTicketBean.ticket.cliente.sistema}"
+						style="display: block; margin-bottom: 15px; width: 100%"
+						readonly="true" />
+
+					<p:outputLabel value="Rotina que apresentou problema: "
+						for="rotina" />
+					<p:inputText id="rotina"
+						value="#{cadastroTicketBean.ticket.rotina}"
+						style="display: block; margin-bottom: 15px; width: 100%"
+						readonly="true" />
+
+					<p:outputLabel value="Nível: " for="nivel" />
+					<p:selectOneRadio id="nivel"
+						value="#{cadastroTicketBean.ticket.nivel}"
+						style="display: block; margin-bottom: 15px; width: 100%"
+						disabled="true">
+						<f:selectItem itemLabel="Baixo" itemValue="0" />
+						<f:selectItem itemLabel="Médio" itemValue="1" />
+						<f:selectItem itemLabel="Alto" itemValue="2" />
+						<f:selectItem itemLabel="Urgente" itemValue="3" />
+					</p:selectOneRadio>
+
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Status" /> -->
+					<p:outputLabel value="Status do Ticket: " for="status" />
+					<p:selectOneRadio id="status"
+						value="#{cadastroTicketBean.ticket.status}"
+						style="display: block; margin-bottom: 15px; width: 100%"
+						disabled="true">
+						<f:selectItem itemLabel="Aberto" itemValue="0" />
+						<f:selectItem itemLabel="Em andamento" itemValue="1" />
+						<f:selectItem itemLabel="Fechado" itemValue="2" />
+					</p:selectOneRadio>
+
+					<p:outputLabel value="Tipo do Ticket: " for="tipo" />
+					<p:selectOneRadio id="tipo"
+						value="#{cadastroTicketBean.ticket.tipoTicket}"
+						style="display: block; margin-bottom: 15px; width: 96%"
+						disabled="true">
+						<f:selectItem itemValue="0" itemLabel="Contrato" />
+						<f:selectItem itemValue="1" itemLabel="Cortesia" />
+						<f:selectItem itemValue="2" itemLabel="Garantia" />
+						<f:selectItem itemValue="3" itemLabel="Cobrança" />
+					</p:selectOneRadio>
+
+					<div style="padding-bottom: 1.5em;" />
+				</div>
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:button value="Ver chamados"
+							outcome="/chamados/ListagemTicket.xhtml" icon="ui-icon-search" />
+					</p:toolbarGroup>
+				</p:toolbar>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>

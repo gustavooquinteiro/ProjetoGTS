@@ -46,6 +46,9 @@ public class Clientes implements Serializable {
 		if (StringUtils.isNotBlank(filtro.getRazaosocial())) {
 			criteria.add(Restrictions.ilike("razaosocial", filtro.getRazaosocial().toUpperCase(), MatchMode.START));
 		}
+		if (StringUtils.isNotBlank(filtro.getNome())) {
+			criteria.add(Restrictions.eq("nome", filtro.getNome()));
+		}
 		if (op.equals("status")) {
 			criteria.add(Restrictions.eq("bloqueado", filtro.isStatus()));
 		}
@@ -54,6 +57,18 @@ public class Clientes implements Serializable {
 
 	public Cliente porId(Long id) {
 		return manager.find(Cliente.class, id);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cliente> buscar(String opcao, String nome) {
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Cliente.class);
+		if (!opcao.equals("vazio")){
+			criteria.add(Restrictions.ilike(opcao, nome.toUpperCase(), MatchMode.START));
+		}else if (opcao.equals("cnpj")){
+			criteria.add(Restrictions.eq(opcao, nome)); 
+		}
+		return criteria.list();
 	}
 
 	@Transactional

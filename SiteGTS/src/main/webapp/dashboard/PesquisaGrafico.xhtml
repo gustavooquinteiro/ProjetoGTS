@@ -1,0 +1,57 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Gestão Sistemas - Consulta</ui:define>
+	<ui:define name="corpo">
+		<h:form>
+
+			<p:panelGrid columns="10" style="width: 100%"
+				columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Pesquisar por: " for="pesquisapor" />
+				<p:selectOneMenu id="pesquisapor" value="#{graficosBean.opcao}"
+					style="width:40%" required="true">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Tickets por status" itemValue="porstatus" />
+					<f:selectItem itemLabel="Tickets por técnico"
+						itemValue="portecnico" />
+					<f:selectItem itemLabel="Tickets por rotinas" itemValue="porrotina" />
+					<f:selectItem itemLabel="Tickets por cliente"
+						itemValue="porcliente" />
+				</p:selectOneMenu>
+			
+				De:
+				<p:calendar value="#{graficosBean.dataInicial}" required="true" />
+				
+				Ate:
+				<p:calendar value="#{graficosBean.dataFinal}" required="true" />
+
+				<p:outputLabel value="Tipo de gráfico: " />
+				<p:selectOneMenu value="#{graficosBean.tipoGrafico}" required="true">
+					<f:selectItem itemLabel=" " itemValue="vazio" />
+					<f:selectItem itemLabel="Barra" itemValue="bar" />
+					<f:selectItem itemLabel="Linha" itemValue="line" />
+					<f:selectItem itemLabel="Pizza" itemValue="pie" />
+				</p:selectOneMenu>
+
+				<p:commandButton value="Consultar"
+					actionListener="#{graficosBean.consultarGraficos}" update="@form"
+					ajax="false" />
+				<p:commandButton value="Emitir Relatório" action="#{graficosBean.emitir}" ajax="false"/>
+			</p:panelGrid>
+			<p:chart id="bar" type="bar" model="#{graficosBean.modeloBarra}"
+				responsive="true" rendered="#{graficosBean.mostrarGraficoBarra}" />
+
+			<p:chart id="pie" type="pie" model="#{graficosBean.modeloPizza}"
+				style="height:100em" rendered="#{graficosBean.mostrarGraficoPizza}" />
+
+			<p:chart id="line" type="line" model="#{graficosBean.modeloLinha}"
+				responsive="true" rendered="#{graficosBean.mostrarGraficoLinha}" />
+		</h:form>
+	</ui:define>
+</ui:composition>

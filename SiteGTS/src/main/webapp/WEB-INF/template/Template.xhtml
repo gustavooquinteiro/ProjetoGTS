@@ -50,8 +50,21 @@
 							outcome="/usuarios/PesquisaUsuario.xhtml"
 							disabled="not #{seguranca.permitidoAcesso}" />
 					</p:submenu>
+					<p:submenu label="Chamados" icon=" fa fa-fw fa-ticket">
+						<p:menuitem value="Novo" icon="fa fa-fw fa-plus"
+							outcome="/chamados/CadastroTicket.xhtml" />
+						<p:menuitem value="Ver chamados"
+							outcome="/chamados/ListagemTicket.xhtml"
+							icon="fa fa-fw fa-search" />
+						<p:menuitem value="Relatórios" icon="fa fa-fw fa-file-pdf-o" />
+					</p:submenu>
+					<p:menuitem value="Dashboard" outcome="/dashboard/PesquisaGrafico.xhtml"/>
 					<p:separator />
 					<p:submenu label="#{seguranca.nomeUsuario}">
+						<p:menuitem value="Configurações"
+							outcome="/usuarios/EditarUsuario.xhtml" icon="fa fa-fw fa-cog">
+							<f:param name="usuario" value="#{seguranca.idUsuario}" />
+						</p:menuitem>
 						<p:menuitem value="Sair" url="/j_spring_security_logout"
 							icon="fa fa-fw fa-power-off" />
 					</p:submenu>
@@ -73,7 +86,7 @@
 
 	<footer>
 	<p style="float: right; right: 10;">
-		&copy; Copyright 2016 - Painel administrativo <a
+		&copy; Copyright #{dataBean.anoAtual} - Painel administrativo <a
 			href="http://www.gestaosistemas.com">Gestão Sistemas</a>
 	</p>
 	</footer>

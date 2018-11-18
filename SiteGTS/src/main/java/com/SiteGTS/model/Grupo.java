@@ -1,11 +1,13 @@
 package com.SiteGTS.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +22,17 @@ public class Grupo implements Serializable {
 	
 	@Column(nullable = false, length = 40)
 	private String nome;
+	
+	@OneToMany (mappedBy = "grupo")
+	private List<Usuario> usuarios; 
+	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(Usuario usuarios) {
+		this.usuarios.add(usuarios);
+	}
 
 	public String getNome() {
 		return nome;
@@ -60,8 +73,6 @@ public class Grupo implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	
+	}	
 
 }

@@ -12,8 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 @RequestScoped
 public class Seguranca {
 
-	@Inject 
-	private ExternalContext externalContext; 
+	@Inject
+	private ExternalContext externalContext;
 
 	public String getNomeUsuario() {
 		String nome = null;
@@ -27,6 +27,15 @@ public class Seguranca {
 		return nome;
 	}
 
+	public Long getIdUsuario() {
+		Long id = null;
+		UsuarioSistema user = getUsuarioLogado();
+		if (user != null) {
+			id = user.getUsuario().getId();
+		}
+		return id;
+	}
+
 	private UsuarioSistema getUsuarioLogado() {
 		UsuarioSistema usuario = null;
 
@@ -38,12 +47,16 @@ public class Seguranca {
 		}
 		return usuario;
 	}
-	
-	public boolean isPermitidoExclusaoCliente(){
-		return externalContext.isUserInRole("ADMINISTRADOR"); 
+
+	public boolean isPermitidoExclusaoCliente() {
+		return externalContext.isUserInRole("ADMINISTRADOR");
 	}
-	
-	public boolean isPermitidoAcesso(){
-		return externalContext.isUserInRole("ADMINISTRADOR"); 
+
+	public boolean isPermitidoExclusaoUsuario() {
+		return externalContext.isUserInRole("ADMINISTRADOR");
+	}
+
+	public boolean isPermitidoAcesso() {
+		return externalContext.isUserInRole("ADMINISTRADOR");
 	}
 }

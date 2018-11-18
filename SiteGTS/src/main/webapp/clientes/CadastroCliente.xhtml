@@ -22,7 +22,7 @@
 		<h1>Cadastro de Cliente</h1>
 		<h:form id="cadastro">
 			<fieldset style="padding: 3em;">
-				<p:messages autoUpdate="true" closable="true" />
+
 
 				<div style="width: 400px;">
 					<div class="float-left">
@@ -33,7 +33,7 @@
 
 					<div class="float-right">
 						<p:outputLabel value="Inscrição: " for="inscricao" />
-						<p:inputMask mask="999999999" id="inscricao" style="width: 96%"
+						<p:inputText id="inscricao" style="width: 96%"
 							value="#{cadastroClienteBean.cliente.inscricao}" />
 					</div>
 					<div class="clear" />
@@ -45,7 +45,7 @@
 					</div>
 
 					<div class="form">
-						<p:outputLabel value="Nome: " for="nome" />
+						<p:outputLabel value="Nome Fantasia: " for="nome" />
 						<p:inputText id="nome" required="true" styleClass="formato-linha"
 							value="#{cadastroClienteBean.cliente.nome}" />
 					</div>
@@ -199,7 +199,7 @@
 
 					<div class="clear" />
 				</div>
-
+				<p:messages autoUpdate="true" closable="true" />
 				<p:toolbar>
 					<p:toolbarGroup align="left" style="padding: .3em">
 
@@ -217,6 +217,7 @@
 
 					</p:toolbarGroup>
 				</p:toolbar>
+
 			</fieldset>
 		</h:form>
 	</ui:define>

@@ -10,7 +10,8 @@ public class ClienteFilter implements Serializable {
 	private String razaosocial;
 	private boolean status;
 	private String inscricao;
-
+	private String nome;  
+	
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -41,6 +42,14 @@ public class ClienteFilter implements Serializable {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 }

@@ -2,17 +2,13 @@ package com.SiteGTS.model;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -35,9 +31,9 @@ public class Usuario implements Serializable {
 	@Column
 	private String senha;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	private List<Grupo> grupos = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "grupo_id")
+	private Grupo grupo;
 
 	public Long getId() {
 		return id;
@@ -71,12 +67,12 @@ public class Usuario implements Serializable {
 		this.senha = criptografa(senha);
 	}
 
-	public List<Grupo> getGrupos() {
-		return grupos;
+	public Grupo getGrupo() {
+		return grupo;
 	}
 
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
 	}
 
 	@Override

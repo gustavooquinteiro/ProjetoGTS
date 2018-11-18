@@ -58,6 +58,13 @@ public class Usuarios implements Serializable {
 		return criteria.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Usuario> buscar() {
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Usuario.class);
+		return criteria.list();
+	}
+
 	public Usuario porEmail(String email) {
 		Usuario usuario = null;
 		try {
@@ -68,7 +75,5 @@ public class Usuarios implements Serializable {
 		}
 		return usuario;
 	}
-
-	
 
 }

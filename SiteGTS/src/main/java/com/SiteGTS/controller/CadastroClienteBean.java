@@ -18,7 +18,6 @@ public class CadastroClienteBean implements Serializable {
 
 	private Cliente cliente;
 
-
 	@Inject
 	private CadastroClienteService ccs;
 
@@ -35,12 +34,12 @@ public class CadastroClienteBean implements Serializable {
 		limpar();
 		FacesUtil.addInfoMessage("Cadastro feito com sucesso!!");
 	}
-
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
+		}
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
@@ -31,7 +32,7 @@ public class LoginBean implements Serializable {
 
 	private String email;
 
-	public void preRender(){
+	public void preRender(ComponentSystemEvent cse){
 		if ("true".equals(request.getParameter("invalid"))){
 			FacesUtil.addErrorMessage("Usuário ou senha inválida!");
 		}

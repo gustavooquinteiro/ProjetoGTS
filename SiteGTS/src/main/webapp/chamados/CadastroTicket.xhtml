@@ -1,0 +1,168 @@
+<ui:composition template="/WEB-INF/template/Template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui">
+	<ui:define name="titulo">Gestão Sistemas</ui:define>
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="ticket" value="#{cadastroTicketBean.ticket}" />
+		</f:metadata>
+
+		<h1>Tickets</h1>
+		<h:form id="cadastroticket">
+			<fieldset class="fieldset">
+
+				<div style="width: 400px;">
+
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="Pesquisa: " for="pesquisa" />
+						<p:selectOneMenu id="pesquisa" value="#{cadastroTicketBean.op}">
+							<f:selectItem itemLabel="Razão Social" itemValue="razaosocial" />
+							<f:selectItem itemLabel="Nome Fantasia" itemValue="nome" />
+							<f:selectItem itemLabel="CNPJ" itemValue="cnpj" />
+							<f:selectItem itemLabel="Contendo" itemValue="vazio" />
+							<f:ajax />
+						</p:selectOneMenu>
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Empresa: " for="empresa" />
+						<p:autoComplete id="empresa"
+							value="#{cadastroTicketBean.ticket.cliente}"
+							completeMethod="#{cadastroTicketBean.completarEmpresa}"
+							forceSelection="true" var="cliente"
+							itemLabel="#{cliente.razaosocial}" itemValue="#{cliente}"
+							styleClass="formato-linha">
+							<p:ajax update="tel"
+								listener="#{cadastroTicketBean.colocarTelefone}" />
+						</p:autoComplete>
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left">
+						<p:outputLabel value="Solicitante: " for="solicitante" />
+						<p:inputText id="solicitante"
+							value="#{cadastroTicketBean.ticket.solicitante}" />
+					</div>
+
+					<div class="float-right">
+						<p:outputLabel value="Telefone" for="tel" />
+						<p:inputText id="tel"
+							value="#{cadastroTicketBean.ticket.cliente.fone1}" />
+					</div>
+
+					<div class="clear" />
+
+					<div class="float-left formato-coluna">
+						<p:outputLabel value="Atendente" for="atendente" />
+						<p:selectOneMenu id="atendente"
+							value="#{cadastroTicketBean.ticket.atendente}"
+							style="display: block; margin-bottom: 15px;">
+							<f:selectItems value="#{cadastroTicketBean.usuarios}"
+								var="atendente" itemLabel="#{atendente.nome}"
+								itemValue="#{atendente.nome}" />
+						</p:selectOneMenu>
+					</div>
+
+					<div class="float-right formato-coluna">
+						<p:outputLabel value="Técnico" for="tecnico" />
+						<p:selectOneMenu id="tecnico"
+							value="#{cadastroTicketBean.ticket.tecnico}"
+							style="display: block; margin-bottom: 15px;">
+							<f:selectItems value="#{cadastroTicketBean.usuarios}"
+								var="tecnico" itemLabel="#{tecnico.nome}"
+								itemValue="#{tecnico.nome}" />
+						</p:selectOneMenu>
+					</div>
+
+					<div class="clear" />
+
+					<p:outputLabel value="Descrição do problema: " for="problema" />
+					<p:inputTextarea id="problema"
+						value="#{cadastroTicketBean.ticket.problema}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
+
+					<p:outputLabel value="Descrição da solução: " for="solucao" />
+					<p:inputTextarea id="solucao"
+						value="#{cadastroTicketBean.ticket.solucao}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
+
+					<p:outputLabel value="Software: " for="software" />
+					<p:inputText id="software"
+						value="#{cadastroTicketBean.cliente.sistema}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
+
+					<p:outputLabel value="Rotina que apresentou problema: "
+						for="rotina" />
+					<p:inputText id="rotina"
+						value="#{cadastroTicketBean.ticket.rotina}"
+						style="display: block; margin-bottom: 15px; width: 100%" />
+
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Nivel" /> -->
+					<p:outputLabel value="Nível: " for="nivel" />
+					<p:selectOneRadio id="nivel"
+						value="#{cadastroTicketBean.ticket.nivel}"
+						style="display: block; margin-bottom: 15px; width: 100%">
+						<f:selectItem itemLabel="Baixo" itemValue="0" />
+						<f:selectItem itemLabel="Médio" itemValue="1" />
+						<f:selectItem itemLabel="Alto" itemValue="2" />
+						<f:selectItem itemLabel="Urgente" itemValue="3" />
+					</p:selectOneRadio>
+
+					<!-- 					<o:importConstants type="com.SiteGTS.model.Status" /> -->
+					<p:outputLabel value="Status do Ticket: " for="status" />
+					<p:selectOneRadio id="status"
+						value="#{cadastroTicketBean.ticket.status}"
+						style="display: block; margin-bottom: 15px; width: 100%">
+						<f:selectItem itemLabel="Aberto" itemValue="0" />
+						<f:selectItem itemLabel="Em andamento" itemValue="1" />
+						<f:selectItem itemLabel="Fechado" itemValue="2" />
+
+					</p:selectOneRadio>
+
+					<p:outputLabel value="Tipo do Ticket:" for="tipo" />
+					<p:selectOneRadio id="tipo"
+						value="#{cadastroTicketBean.ticket.tipoTicket}"
+						style="display: block; margin-bottom: 15px; width: 96%">
+						<f:selectItem itemValue="0" itemLabel="Contrato" />
+						<f:selectItem itemValue="1" itemLabel="Cortesia" />
+						<f:selectItem itemValue="2" itemLabel="Garantia" />
+						<f:selectItem itemValue="3" itemLabel="Cobrança" />
+					</p:selectOneRadio>
+
+					<div style="padding-bottom: 1.5em;" />
+				</div>
+				<!-- 				<p:messages autoUpdate="true" closable="true" />-->
+				<p:toolbar>
+					<p:toolbarGroup>
+
+						<p:commandButton value="Salvar" icon="ui-icon-disk"
+							action="#{cadastroTicketBean.salvar}" update="cadastroticket"
+							oncomplete="PF('confirmacaoSalvamento')" />
+
+						<p:button value="Novo Chamado"
+							outcome="/chamados/CadastroTicket.xhtml"
+							icon="ui-icon-circle-plus" />
+
+						<p:button value="Ver chamados"
+							outcome="/chamados/ListagemTicket.xhtml" icon="ui-icon-search" />
+
+					</p:toolbarGroup>
+					<p:confirmDialog header="Cadastro de Ticket feito com sucesso"
+						message="Ticket cadastrado com sucesso"
+						widgetVar="confirmacaoSalvamento" id="confirmSalvar"
+						responsive="true">
+						<p:commandButton value="OK"
+							oncomplete="PF('confirmacaoSalvamento').hide();"
+							action="#{cadastroTicketBean.redireciona}" />
+					</p:confirmDialog>
+				</p:toolbar>
+			</fieldset>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

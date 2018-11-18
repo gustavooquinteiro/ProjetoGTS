@@ -8,31 +8,31 @@
 	<ui:define name="titulo">Gestão Sistemas</ui:define>
 	<ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.user}" />
+			<o:viewParam name="usuario" value="#{edicaoUsuarioBean.user}" />
 		</f:metadata>
 		<h:form>
 			<p:fieldset class="fieldset">
 
-				<h1>Usuários</h1>
+				<h1>Configurações da conta</h1>
 
 				<h:panelGrid columns="1" class="cadastrouser" id="cadastrouser">
 					<p:messages autoUpdate="true" closable="true" />
 
 					<p:outputLabel value="Nome: " for="nome" />
 					<p:inputText id="nome" style="width: 100%;"
-						value="#{cadastroUsuarioBean.user.nome}" />
+						value="#{edicaoUsuarioBean.user.nome}" />
 
 					<div style="padding-bottom: 1.5em;" />
 
 					<p:outputLabel value="Email: " for="email" />
 					<p:inputText id="email" style="width: 100%;"
-						value="#{cadastroUsuarioBean.user.email}" required="true" />
+						value="#{edicaoUsuarioBean.user.email}" required="true" />
 
 					<div style="padding-bottom: 1.5em;" />
 
 					<p:outputLabel value="Senha" for="senha" />
 					<p:password id="senha" style="width: 100%"
-						value="#{cadastroUsuarioBean.user.senha}" feedback="true"
+						value="#{edicaoUsuarioBean.user.senha}" feedback="true"
 						required="true" weakLabel="Senha fraca" goodLabel="Senha boa"
 						strongLabel="Senha forte" promptLabel="Por favor insira uma senha"
 						match="confirma" inline="true"
@@ -44,26 +44,14 @@
 					<p:password id="confirma" style="width:100%" required="true" />
 
 					<div style="padding-bottom: 1.5em;" />
-
-					<p:outputLabel value="Grupo ao qual pertence: " for="grupo"/>
-					<p:selectOneRadio id="grupo" value="#{cadastroUsuarioBean.grupo}" required="true">
-						<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
-							itemLabel="#{grupo.nome}" itemValue="#{grupo}" />
-					</p:selectOneRadio>
+					
 				</h:panelGrid>
 
 				<p:toolbar>
 					<p:toolbarGroup>
 
-						<p:commandButton value="Salvar" icon="ui-icon-disk"
-							action="#{cadastroUsuarioBean.salvar}" update="cadastrouser" />
-
-						<p:button value="Novo Usuário"
-							outcome="/usuarios/CadastroUsuario.xhtml"
-							icon="ui-icon-circle-plus" />
-
-						<p:button value="Pesquisar Usuário"
-							outcome="/usuarios/PesquisaUsuario.xhtml" icon="ui-icon-search" />
+						<p:commandButton value="Salvar Alterações" icon="ui-icon-disk"
+							action="#{edicaoUsuarioBean.salvar}" update="cadastrouser" />
 
 					</p:toolbarGroup>
 				</p:toolbar>

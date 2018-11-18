@@ -3,11 +3,15 @@ package com.SiteGTS.model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
@@ -22,7 +26,7 @@ public class Cliente implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@Column
+	@Column(unique = true, nullable = false)
 	@CNPJ
 	private String cnpj;
 
@@ -68,6 +72,9 @@ public class Cliente implements Serializable {
 	private String sistema;
 	private boolean contrato;
 
+	@OneToMany(mappedBy = "cliente", targetEntity = Ticket.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Ticket> ticket;
+
 	public Cliente() {
 		setDiaschave(30);
 		setNumlicenca(1);
@@ -94,7 +101,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+		this.cnpj = cnpj.replaceAll("[0-9]^", "");
 	}
 
 	public String getInscricao() {
@@ -154,7 +161,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setCep(String cep) {
-		this.cep = cep;
+		this.cep = cep.replaceAll("[0-9]^", "");
 	}
 
 	public String getBairro() {
@@ -178,7 +185,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setFone1(String fone1) {
-		this.fone1 = fone1;
+		this.fone1 = fone1.replaceAll("[0-9]^", "");
 	}
 
 	public String getFone2() {
@@ -186,7 +193,7 @@ public class Cliente implements Serializable {
 	}
 
 	public void setFone2(String fone2) {
-		this.fone2 = fone2;
+		this.fone2 = fone2.replaceAll("[0-9]^", "");
 	}
 
 	public String getEmail1() {
@@ -238,7 +245,7 @@ public class Cliente implements Serializable {
 	}
 
 	public boolean isBloqueado() {
-		return this.bloqueado; 
+		return this.bloqueado;
 	}
 
 	public void setBloqueado(boolean bloqueado) {
@@ -275,6 +282,14 @@ public class Cliente implements Serializable {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco.toUpperCase();
+	}
+
+	public List<Ticket> getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(List<Ticket> ticket) {
+		this.ticket = ticket;
 	}
 
 	@Override
