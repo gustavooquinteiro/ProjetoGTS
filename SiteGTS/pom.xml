@@ -125,10 +125,10 @@
 		<!-- Spring Security (autenticação e autorização) -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-config</artifactId>
-		    <version>4.2.3.RELEASE</version>
-		</dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>[4.2.12,)</version>
+        </dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
 		<dependency>
